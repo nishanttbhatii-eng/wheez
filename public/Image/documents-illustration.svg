@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 360" fill="none" aria-hidden="true">
+  <!-- Desk -->
+  <rect x="70" y="248" width="230" height="12" rx="2" fill="#1a1a1a"/>
+  <rect x="90" y="260" width="14" height="70" fill="#1a1a1a"/>
+  <rect x="266" y="260" width="14" height="70" fill="#1a1a1a"/>
+
+  <!-- Yellow folder on floor -->
+  <path d="M48 300h52l10 30H38l10-30z" fill="#FFD200" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M48 300h20l6 8H42l6-8z" fill="#FFE566" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Floating docs -->
+  <g transform="translate(290 40)">
+    <rect x="0" y="0" width="48" height="60" rx="4" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M10 16h28M10 26h28M10 36h18" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(340 70) rotate(12)">
+    <rect x="0" y="0" width="40" height="52" rx="4" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M8 14h24M8 22h24M8 30h14" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Gear with check -->
+  <g transform="translate(300 150)">
+    <circle cx="28" cy="28" r="22" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <circle cx="28" cy="28" r="10" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M28 2v6M28 48v6M2 28h6M48 28h6M8.5 8.5l4.2 4.2M43.3 43.3l4.2 4.2M8.5 47.5l4.2-4.2M43.3 12.7l4.2-4.2" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+    <path d="M20 29l5 5 11-12" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Seated person left -->
+  <g transform="translate(100 120)">
+    <circle cx="36" cy="28" r="18" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M18 46c4-14 32-14 36 0v36H18V46z" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M18 70h36" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="28" y="82" width="48" height="28" rx="4" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M34 90h20M34 98h14" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Yellow chair -->
+  <g transform="translate(195 175)">
+    <rect x="0" y="40" width="58" height="10" rx="2" fill="#FFD200" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="8" y="0" width="42" height="44" rx="6" fill="#FFD200" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="6" y="50" width="8" height="28" fill="#1a1a1a"/>
+    <rect x="44" y="50" width="8" height="28" fill="#1a1a1a"/>
+  </g>
+
+  <!-- Seated person middle (on yellow chair) -->
+  <g transform="translate(198 105)">
+    <circle cx="30" cy="26" r="17" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M12 44c4-12 32-12 36 0v48H12V44z" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="22" y="58" width="42" height="26" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="28" y="64" width="30" height="14" rx="2" fill="#FFD200"/>
+  </g>
+
+  <!-- Standing person with papers -->
+  <g transform="translate(300 175)">
+    <circle cx="34" cy="22" r="16" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M14 42c5-14 34-14 40 0v78H14V42z" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="42" y="48" width="28" height="36" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M48 58h16M48 66h16M48 74h10" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M20 120h28M48 120h20" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Small gear top left -->
+  <g transform="translate(40 50)">
+    <circle cx="20" cy="20" r="16" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <circle cx="20" cy="20" r="7" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+    <path d="M14 21l3.5 3.5 8-9" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

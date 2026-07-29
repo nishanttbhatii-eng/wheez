@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\AdminUserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home-new', [HomeController::class, 'homeNew'])->name('home.new');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/services/{slug}', [HomeController::class, 'serviceShow'])->name('services.show');
 Route::post('/services/{slug}/enquire', [HomeController::class, 'serviceEnquire'])->name('services.enquire');
