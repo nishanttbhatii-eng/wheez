@@ -44,7 +44,7 @@
 
 <div class="mb-3">
     <label for="url" class="form-label">URL</label>
-    <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ old('url', $menu->url ?? '') }}" placeholder="https:// or /page/slug or #">
+    <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ old('url', $menu->url ?? '') }}" placeholder="https:// or /about-us or #">
     @error('url')<div class="invalid-feedback">{{ $message }}</div>@enderror
     <small class="text-muted">Leave empty for menu/group headings without a direct link.</small>
 </div>

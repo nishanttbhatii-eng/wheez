@@ -20,7 +20,7 @@ class TestEmployeeSeeder extends Seeder
                 'password' => Hash::make('emp123'),
                 'joining_date' => now()->toDateString(),
                 'role' => 'emp',
-                'permissions' => config('staff.roles.emp.permissions'),
+                'staff_permissions' => config('staff.roles.emp.permissions'),
                 'department' => 'IT',
                 'working_days' => [
                     'monday' => 'full_day',

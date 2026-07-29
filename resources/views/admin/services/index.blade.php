@@ -46,48 +46,59 @@
 
 <div class="card">
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($services as $service)
+        <div class="admin-table-wrap">
+            <div class="table-responsive">
+                <table class="table admin-datatable" id="servicesTable">
+                    <thead>
                         <tr>
-                            <td>{{ $service->id }}</td>
-                            <td>
-                                <strong>{{ $service->name }}</strong>
-                                <div><code class="small">{{ \Illuminate\Support\Str::limit($service->slug, 40) }}</code></div>
-                            </td>
-                            <td>{{ $service->category?->name ?: '—' }}</td>
-                            <td>₹{{ number_format((float) $service->price, 0) }}</td>
-                            <td>
-                                @if($service->status)
-                                    <span class="badge badge-success">Active</span>
-                                @else
-                                    <span class="badge badge-danger">Inactive</span>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('admin.services.edit', $service) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('admin.services.destroy', $service) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this service?');">
-                                    @csrf @method('DELETE')
-                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </td>
+                            <th style="width:72px">ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th style="width:140px" class="text-end">Actions</th>
                         </tr>
-                    @empty
-                        <tr><td colspan="6" class="text-center text-muted py-4">No services found.</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse($services as $service)
+                            <tr>
+                                <td>{{ $service->id }}</td>
+                                <td>
+                                    <strong>{{ $service->name }}</strong>
+                                    <div><code>{{ \Illuminate\Support\Str::limit($service->slug, 40) }}</code></div>
+                                </td>
+                                <td>{{ $service->category?->name ?: '—' }}</td>
+                                <td>₹{{ number_format((float) $service->price, 0) }}</td>
+                                <td>
+                                    @if($service->status)
+                                        <span class="admin-status admin-status--success">Active</span>
+                                    @else
+                                        <span class="admin-status admin-status--danger">Inactive</span>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    <div class="admin-actions">
+                                        <a href="{{ route('admin.services.edit', $service) }}" class="admin-action admin-action--edit" title="Edit" aria-label="Edit">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a href="{{ route('admin.services.status', $service) }}" class="admin-action admin-action--status" title="Toggle status" aria-label="Toggle status">
+                                            <i class="fas fa-toggle-on"></i>
+                                        </a>
+                                        <form action="{{ route('admin.services.destroy', $service) }}" method="POST" onsubmit="return confirm('Delete this service?');">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="admin-action admin-action--delete" title="Delete" aria-label="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr><td colspan="6" class="text-center text-muted py-4">No services found.</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
         {{ $services->links() }}
     </div>

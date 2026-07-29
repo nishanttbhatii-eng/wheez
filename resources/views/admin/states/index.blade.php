@@ -14,28 +14,41 @@
 
 <div class="card">
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr><th>ID</th><th>Name</th><th>Cities</th><th>Actions</th></tr>
-                </thead>
-                <tbody>
-                    @foreach($states as $state)
+        <div class="admin-table-wrap">
+            <div class="table-responsive">
+                <table class="table admin-datatable" id="statesTable">
+                    <thead>
                         <tr>
-                            <td>{{ $state->id }}</td>
-                            <td>{{ $state->name }}</td>
-                            <td>{{ $state->cities_count }}</td>
-                            <td>
-                                <a href="{{ route('admin.states.edit', $state) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('admin.states.destroy', $state) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this state?');">
-                                    @csrf @method('DELETE')
-                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </td>
+                            <th style="width:72px">ID</th>
+                            <th>Name</th>
+                            <th>Cities</th>
+                            <th style="width:110px" class="text-end">Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($states as $state)
+                            <tr>
+                                <td>{{ $state->id }}</td>
+                                <td><strong>{{ $state->name }}</strong></td>
+                                <td>{{ $state->cities_count }}</td>
+                                <td class="text-end">
+                                    <div class="admin-actions">
+                                        <a href="{{ route('admin.states.edit', $state) }}" class="admin-action admin-action--edit" title="Edit" aria-label="Edit">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <form action="{{ route('admin.states.destroy', $state) }}" method="POST" onsubmit="return confirm('Delete this state?');">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="admin-action admin-action--delete" title="Delete" aria-label="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
         {{ $states->links() }}
     </div>

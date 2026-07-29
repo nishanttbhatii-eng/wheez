@@ -60,9 +60,9 @@
 
                     <div class="mb-4">
                         <label for="featured_image" class="form-label">Featured Image</label>
-                        @if($page->featured_image)
+                        @if($page->featured_image_url)
                             <div class="mb-3">
-                                <img src="{{ asset('storage/' . $page->featured_image) }}" alt="{{ $page->title }}" style="max-width: 100%; height: auto; border-radius: 8px; max-height: 200px;">
+                                <img src="{{ $page->featured_image_url }}" alt="{{ $page->title }}" style="max-width: 100%; height: auto; border-radius: 8px; max-height: 200px;">
                             </div>
                         @endif
                         <input type="file" class="form-control @error('featured_image') is-invalid @enderror" id="featured_image" name="featured_image" accept="image/*">

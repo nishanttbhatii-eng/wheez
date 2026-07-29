@@ -1,0 +1,40 @@
+@media screen and (max-width: 992px) {
+.fixed .content-wrapper, .fixed .right-side {
+    padding-top: 180px;
+}
+
+.navbar-custom-menu ul li  .input-search .form-control {
+    width: 400px;
+}
+.navbar-custom-menu li.user.user-menu {
+    right: -80px;
+}
+
+.navbar-custom-menu a.invite-user {
+    left: 55px;
+}
+.main-sidebar {
+    padding-top: 170px;
+}
+
+.image-box img {
+    z-index: 1;
+}
+
+ul li .search-icon button{
+    background: transparent;
+}
+.content .fixed-sec  {
+    position: static;
+    background: #fff;
+    width: 100%;
+}
+.download-part {
+    display: inline-block;
+}
+.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
+    z-index: 999;
+    position: relative;
+}
+
+}

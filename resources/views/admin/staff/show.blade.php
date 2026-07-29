@@ -85,7 +85,7 @@
                     <div class="col-md-12">
                         <h5 class="text-primary mb-3">Permissions</h5>
                         <div class="d-flex flex-wrap gap-2">
-                            @forelse($staff->permissions ?? [] as $permission)
+                            @forelse($staff->staff_permissions ?? [] as $permission)
                                 <span class="badge bg-secondary">{{ config('staff.permissions.' . $permission, ucfirst(str_replace('_', ' ', $permission))) }}</span>
                             @empty
                                 <span class="text-muted">No permissions assigned.</span>

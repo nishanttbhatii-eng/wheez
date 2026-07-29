@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Permission;
 
 class StaffController extends Controller
 {
@@ -47,7 +48,7 @@ class StaffController extends Controller
 
     public function create()
     {
-        return view('admin.staff.create');
+        return view('admin.staff.create', $this->staffFormExtras());
     }
 
     public function store(Request $request)
@@ -58,7 +59,7 @@ class StaffController extends Controller
             $fullName = trim($validated['first_name'] . ' ' . $validated['last_name']);
             $permissions = $this->resolvePermissions($validated['role'], $validated['permissions'] ?? []);
 
-            User::create([
+            $staff = User::create([
                 'name' => $fullName,
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
@@ -68,7 +69,7 @@ class StaffController extends Controller
                 'phone' => $validated['contact_number'] ?? null,
                 'joining_date' => $validated['joining_date'],
                 'role' => $validated['role'],
-                'permissions' => $permissions,
+                'staff_permissions' => $permissions,
                 'department' => $validated['department'] ?? null,
                 'working_days' => [
                     'monday' => 'full_day',
@@ -81,6 +82,8 @@ class StaffController extends Controller
                 ],
                 'status' => $request->has('status') ? 'active' : 'inactive',
             ]);
+
+            $staff->syncPermissions($validated['cms_permissions'] ?? []);
 
             return redirect()->route('admin.staff.index')->with('success', 'User created successfully');
         } catch (\Exception $e) {
@@ -95,7 +98,10 @@ class StaffController extends Controller
 
     public function edit(User $staff)
     {
-        return view('admin.staff.edit', compact('staff'));
+        return view('admin.staff.edit', array_merge(
+            compact('staff'),
+            $this->staffFormExtras($staff)
+        ));
     }
 
     public function update(Request $request, User $staff)
@@ -121,13 +127,15 @@ class StaffController extends Controller
             'emergency_contact_number' => $validated['emergency_contact_number'] ?? null,
             'joining_date' => $validated['joining_date'],
             'role' => $validated['role'],
-            'permissions' => $permissions,
+            'staff_permissions' => $permissions,
             'department' => $validated['department'] ?? null,
             'designation' => $validated['profile'] ?? null,
             'working_days' => $validated['working_days'],
             'notes' => $validated['notes'] ?? null,
             'status' => $request->has('status') ? 'active' : 'inactive',
         ]);
+
+        $staff->syncPermissions($validated['cms_permissions'] ?? []);
 
         return redirect()->route('admin.staff.index')->with('success', 'User updated successfully');
     }
@@ -143,6 +151,7 @@ class StaffController extends Controller
     {
         $staffRoleKeys = array_keys(config('staff.roles'));
         $permissionKeys = array_keys(config('staff.permissions'));
+        $cmsPermissionNames = Permission::pluck('name')->all();
 
         if ($isCreate) {
             return [
@@ -155,6 +164,8 @@ class StaffController extends Controller
                 'role' => ['required', Rule::in($staffRoleKeys)],
                 'permissions' => 'nullable|array',
                 'permissions.*' => [Rule::in($permissionKeys)],
+                'cms_permissions' => 'nullable|array',
+                'cms_permissions.*' => [Rule::in($cmsPermissionNames)],
                 'department' => 'nullable|string|max:100',
                 'password' => 'required|string|min:8|confirmed',
             ];
@@ -177,6 +188,8 @@ class StaffController extends Controller
             'role' => ['required', Rule::in($staffRoleKeys)],
             'permissions' => 'nullable|array',
             'permissions.*' => [Rule::in($permissionKeys)],
+            'cms_permissions' => 'nullable|array',
+            'cms_permissions.*' => [Rule::in($cmsPermissionNames)],
             'department' => 'nullable|string|max:100',
             'profile' => 'nullable|string|max:100',
             'working_days' => ($staffId ? 'required' : 'nullable') . '|array' . ($staffId ? '|min:7|max:7' : ''),
@@ -201,5 +214,22 @@ class StaffController extends Controller
         }
 
         return $selected;
+    }
+
+    private function staffFormExtras(?User $staff = null): array
+    {
+        $cmsPermissions = Permission::orderBy('name')->get()->groupBy(function ($permission) {
+            $parts = explode('-', $permission->name);
+
+            return $parts[0] ?? 'other';
+        });
+
+        $cmsRolePermissionMap = config('staff.cms_permissions_by_role', []);
+        $selectedCmsPermissions = old(
+            'cms_permissions',
+            $staff ? $staff->getDirectPermissions()->pluck('name')->all() : []
+        );
+
+        return compact('cmsPermissions', 'cmsRolePermissionMap', 'selectedCmsPermissions');
     }
 }

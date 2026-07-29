@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Dashboard') - WhizSeed</title>
-    
+    <link rel="icon" href="{{ asset('favicon.ico') }}?v=2" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=2" type="image/x-icon">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -37,10 +39,56 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            @if(auth()->user()->isAdmin())
+            @php($panelUser = auth()->user())
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('user'))
+            <li class="sidebar-section-label">Manage User</li>
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('user'))
+            <li>
+                <a href="{{ route('admin.users.index') }}" class="{{ request()->is('admin/users*') ? 'active' : '' }}">
+                    <span>Users</span>
+                </a>
+            </li>
+            @endif
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('permission'))
+            <li>
+                <a href="{{ route('admin.permissions.index') }}" class="{{ request()->is('admin/permissions*') ? 'active' : '' }}">
+                    <span>Permissions</span>
+                </a>
+            </li>
+            @endif
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('role'))
+            <li>
+                <a href="{{ route('admin.roles.index') }}" class="{{ request()->is('admin/roles*') ? 'active' : '' }}">
+                    <span>Roles</span>
+                </a>
+            </li>
+            @endif
+            @if($panelUser->isAdmin())
+            <li>
+                <a href="{{ route('admin.log-activity.index') }}" class="{{ request()->is('admin/log-activity*') ? 'active' : '' }}">
+                    <span>Log Activity</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.login-history.index') }}" class="{{ request()->is('admin/login-history*') ? 'active' : '' }}">
+                    <span>Login History</span>
+                </a>
+            </li>
+            @endif
+            @endif
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('page'))
+            <li class="sidebar-section-label">CMS</li>
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('page'))
             <li>
                 <a href="{{ route('admin.pages.index') }}" class="{{ request()->is('admin/pages*') ? 'active' : '' }}">
                     <span>Pages</span>
+                </a>
+            </li>
+            @endif
+            @if($panelUser->isAdmin())
+            <li>
+                <a href="{{ route('admin.seos.index') }}" class="{{ request()->is('admin/seos*') ? 'active' : '' }}">
+                    <span>SEO</span>
                 </a>
             </li>
             <li>
@@ -53,16 +101,40 @@
                     <span>Menus</span>
                 </a>
             </li>
+            @endif
+            @endif
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('state') || $panelUser->canViewAdminModule('city') || $panelUser->canViewAdminModule('category') || $panelUser->canViewAdminModule('service'))
+            <li class="sidebar-section-label">Master</li>
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('state'))
+            <li>
+                <a href="{{ route('admin.states.index') }}" class="{{ request()->is('admin/states*') ? 'active' : '' }}">
+                    <span>States</span>
+                </a>
+            </li>
+            @endif
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('city'))
+            <li>
+                <a href="{{ route('admin.cities.index') }}" class="{{ request()->is('admin/cities*') ? 'active' : '' }}">
+                    <span>Cities</span>
+                </a>
+            </li>
+            @endif
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('category'))
             <li>
                 <a href="{{ route('admin.categories.index') }}" class="{{ request()->is('admin/categories*') ? 'active' : '' }}">
                     <span>Categories</span>
                 </a>
             </li>
+            @endif
+            @if($panelUser->isAdmin() || $panelUser->canViewAdminModule('service'))
             <li>
                 <a href="{{ route('admin.services.index') }}" class="{{ request()->is('admin/services-catalog*') ? 'active' : '' }}">
                     <span>Services</span>
                 </a>
             </li>
+            @endif
+            @endif
+            @if($panelUser->isAdmin())
             <li>
                 <a href="{{ route('admin.enquiries.index') }}" class="{{ request()->is('admin/enquiries*') ? 'active' : '' }}">
                     <span>Enquiries</span>
@@ -73,24 +145,15 @@
                     <span>Leads</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('admin.seos.index') }}" class="{{ request()->is('admin/seos*') ? 'active' : '' }}">
-                    <span>SEO</span>
-                </a>
-            </li>
+            <li class="sidebar-section-label">Settings</li>
             <li>
                 <a href="{{ route('admin.site-settings.index') }}" class="{{ request()->is('admin/site-settings*') ? 'active' : '' }}">
                     <span>Site Settings</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.states.index') }}" class="{{ request()->is('admin/states*') ? 'active' : '' }}">
-                    <span>States</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('admin.staff.index') }}" class="{{ request()->is('admin/staff*') ? 'active' : '' }}">
-                    <span>Users</span>
+                    <span>Staff</span>
                 </a>
             </li>
             @endif

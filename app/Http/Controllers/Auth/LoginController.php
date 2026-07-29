@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserLoggedIn;
 use App\Http\Controllers\Controller;
 use App\Mail\LoginOtpMail;
 use App\Models\User;
@@ -99,6 +100,8 @@ class LoginController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
+
+        event(new UserLoggedIn($user));
 
         if (! $user->isAdmin() && $this->isAdminOnlyUrl($request->session()->get('url.intended'))) {
             $request->session()->forget('url.intended');

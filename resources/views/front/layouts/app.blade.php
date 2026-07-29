@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ $page?->document_title ?? ($legal['meta_title'] ?? 'Whizseed - Business Solutions') }}</title>
+  <link rel="icon" href="{{ asset('favicon.ico') }}?v=2" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=2" type="image/x-icon">
 
   @php
     $metaDescription = $page?->meta_description_text ?? ($legal['meta_description'] ?? "Whizseed is your one-stop destination for company registration, GST, trademark, compliance, and business growth services across India.");

@@ -1,0 +1,105 @@
+
+/*------------------- 992 CSS Media Query Start here -----------------*/
+@media screen and (max-width: 992px) {
+ .fixed .content-wrapper, .fixed .right-side {
+    padding-top: 175px;
+}
+ul li .search-icon button{
+background: transparent;
+}
+.input-search .form-control {
+    width: 400px;
+}
+.navbar-custom-menu a.invite-user {
+    left: 65px;
+}
+.main-sidebar {
+    padding-top: 180px;
+}
+#content table.dataTable tbody th, table.dataTable tbody td {
+       text-align: justify !important;
+}
+.content {
+    padding: 10px 30px 20px 30px;
+}
+.navbar-custom-menu li.user.user-menu {
+    right: -80px;
+}
+  .box{
+    padding-top: 10px;
+}
+.main-sidebar {
+    width: 230px;
+}
+carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
+    z-index: 999;
+}
+}
+/*------------------- 992 CSS Media Query END here -----------------*/
+
+
+/*------------------- ipad Mini Portrait Media Query CSS Start here -----------------*/
+ 
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+.navbar-custom-menu a.invite-user {
+    left: 0px;
+}
+.fixed .content-wrapper, .fixed .right-side {
+    padding-top: 110px;
+}
+ul li .search-icon button{
+background: transparent;
+}
+ .main-sidebar {
+    padding-top: 107px;
+}
+
+
+}
+
+
+
+/*------------------- ipad Mini Landscape Media Query CSS Start here -----------------*/
+
+ 
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px)
+and (orientation : landscape) {
+ul li .search-icon button{
+background: transparent;
+}
+#content table.dataTable tbody th, table.dataTable tbody td {
+        text-align: initial !important;
+}
+.main-sidebar {
+    padding-top: 52px;
+}
+ 
+
+}
+/*------------------- Ipad Air Media Query star  CSS Start here -----------------*/
+ 
+@media only screen and (device-width: 1180px) and (device-height: 820px) and (orientation: landscape) {
+.main-sidebar {
+       padding-top: 108px !important;
+}
+.main-sidebar {
+    width: 245px !important;
+}
+.input-search .form-control {
+    width: 475px !important;
+}
+.main-sidebar {
+    padding-top: 100px;
+}
+table.dataTable tbody td {
+    padding: 5px 5px;
+}
+table.dataTable tbody td {
+    padding: 5px 5px;
+}
+#content table.dataTable tbody th, table.dataTable tbody td {
+    text-align: center !important;
+}
+}
+
+ 

@@ -118,7 +118,7 @@
 
                     @include('admin.staff.partials.role-permissions', [
                         'selectedRole' => old('role', $staff->role),
-                        'selectedPermissions' => old('permissions', $staff->permissions ?? []),
+                        'selectedPermissions' => old('permissions', $staff->staff_permissions ?? []),
                     ])
 
                     <!-- Working Days Section -->

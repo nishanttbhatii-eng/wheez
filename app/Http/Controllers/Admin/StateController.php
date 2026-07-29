@@ -11,7 +11,8 @@ class StateController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (! auth()->user()?->isAdmin()) {
+            $user = auth()->user();
+            if (! $user?->isAdmin() && ! $user?->can('state-list')) {
                 abort(403, 'You are not authorized to access this area.');
             }
 

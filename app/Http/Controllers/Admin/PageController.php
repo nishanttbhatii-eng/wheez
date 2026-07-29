@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Page;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,7 +13,8 @@ class PageController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (! auth()->user()?->isAdmin()) {
+            $user = auth()->user();
+            if (! $user?->isAdmin() && ! $user?->can('page-list')) {
                 abort(403, 'You are not authorized to access this area.');
             }
 
@@ -44,6 +46,7 @@ class PageController extends Controller
         $validated['slug'] = Str::slug($validated['slug']);
 
         Page::create($validated);
+        LogActivity::addToLog('Page created successfully.');
 
         return redirect()->route('admin.pages.index')->with('success', 'Page created successfully.');
     }
@@ -64,6 +67,7 @@ class PageController extends Controller
         $validated['slug'] = Str::slug($validated['slug']);
 
         $page->update($validated);
+        LogActivity::addToLog('Page updated successfully.');
 
         return redirect()->route('admin.pages.index')->with('success', 'Page updated successfully.');
     }
@@ -71,8 +75,19 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         $page->delete();
+        LogActivity::addToLog('Page deleted successfully.');
 
         return redirect()->route('admin.pages.index')->with('success', 'Page deleted successfully.');
+    }
+
+    public function changeStatus(Page $page)
+    {
+        $page->update([
+            'status' => $page->status === 'published' ? 'draft' : 'published',
+        ]);
+        LogActivity::addToLog('Page status changed successfully.');
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
     }
 
     private function validatePage(Request $request, ?int $pageId = null): array

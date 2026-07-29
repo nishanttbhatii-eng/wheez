@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'permissions',
+        'staff_permissions',
         'phone',
         'department',
         'designation',
@@ -71,7 +72,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'permissions' => 'array',
+        'staff_permissions' => 'array',
         'working_days' => 'array',
         'date_of_birth' => 'date',
         'joining_date' => 'date',
@@ -92,6 +93,24 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function canAccessAdminPanel(): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return $this->roles()->exists();
+    }
+
+    public function canViewAdminModule(string $module): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return $this->can($module.'-list');
+    }
+
     public function isStaff(): bool
     {
         return array_key_exists($this->role, config('staff.roles', []));
@@ -103,7 +122,7 @@ class User extends Authenticatable
             return true;
         }
 
-        return in_array($permission, $this->permissions ?? [], true);
+        return in_array($permission, $this->staff_permissions ?? [], true);
     }
 
     public function getRoleLabelAttribute(): string

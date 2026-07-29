@@ -1,0 +1,59 @@
+/* ipad Mini Portrait */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+
+#v-pills-tab .nav-link {
+    padding: 8px 10px !important;
+}
+
+.tab-content form {
+    margin: 20px;
+}
+
+.tab-content>.tab-pane {
+    margin: 20px;
+}
+.tab-content .form-label {
+    font-size: 12px !important;
+}
+
+ 
+.input-search .form-control {
+    width: 208px  !important;
+}
+
+}
+/* ipad Mini Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+    #v-pills-tab .nav-link {
+        padding: 8px 10px;
+    }
+    .form-control {
+        width: 260px !important;
+    }
+    
+
+}
+
+/*Ipad Air Media Query start*/
+@media only screen and (device-width: 1180px) and (device-height: 820px) and (orientation: landscape) {
+
+ 
+    a.invite-user {
+        border: 2px solid green !important;
+        border-radius: 37px;
+        padding: 6px 15px !important;
+        color: green !important;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 14px;
+    }
+ 
+}
+
+@media only screen and (max-device-width: 992px) {
+    .fixed-sec {
+        position: initial !important;
+        background: #fff !important;
+        width: 100% !important;
+    }
+}

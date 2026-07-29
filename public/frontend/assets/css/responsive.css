@@ -1,0 +1,97 @@
+
+@media (max-width:1200px){
+	.menu .navbar .nav-item .nav-link{padding: 7px 15px; font-size: 13px;}
+	.service-page .container {
+	    width: 95%;
+	    max-width: 100%;
+	}
+}
+
+
+@media (max-width: 991px){
+	.col-md-2.logo { width: 100%; max-width: 100%; flex: 100%; text-align: center;}
+	.logo a img{width: 90px; margin: 5px 0 0 0;}
+	.col-md-5.menu {margin: 7px 0 0 0; width:46%; max-width:46%; flex:46%;}
+	.menu .navbar .nav-item .nav-link{padding:7px 10px; margin: 0 5px;}
+	.search {margin: 15px 0 0 0; width: 35%; max-width: 35%; flex: 35%;}
+	.login {margin: 17px 0 0 0;}
+	.cart { margin: 17px 0 0 15px;}
+
+	.blue .responsive-tabs dt{font-size: 14px; min-height: 142px;}
+	.nav-bar-h {
+	    display: block;
+	    width: 94%;
+	    padding: 8px 3%;
+	    color: #262626;
+	    position: relative;
+	    border-bottom: solid 1px #999;
+	}
+	.nav span {
+	    position: absolute;
+	    right: 0px;
+	    color: #000;
+	    top: 0px;
+	    padding: 8px 15px 8px 15px;
+	    cursor: pointer;
+	    display: block;
+	}
+	#myDIV {
+	    display: none;
+	}
+	.nav ul li {
+	    width: 100%;
+	    position: relative;
+	    border-bottom: 1px solid #999;
+	}
+	.nav ul li a {
+	    padding: 8px 3%;
+	    width: 90%;
+	}
+	.nav ul li ul {
+	    display: block;
+	    position: relative;
+	    float: left;
+	    top: 0px;
+	}
+	.navmu {
+	    left: 0;
+	    position: relative;
+	    box-shadow: none;
+	    float: left;
+	    width: 94.1%;
+	    padding: 0 3%;
+	    z-index: 999;
+	    top: 0;
+	}
+	.nav ul li ul li {
+	    width: 100%;
+	    border: 0px;
+	    visibility: visible !important;
+	    margin: 0;
+	}
+}
+
+
+@media (max-width: 768px){
+	.col-md-5.menu { margin: 7px 0 0 0; width: 100%; max-width: 100%; flex: 100%; text-align: center;}
+	.navbar-nav.mr-auto.mt-2.mt-lg-0 { width: 100%; text-align: center; display: inline-block;}
+	.navbar-nav.mr-auto.mt-2.mt-lg-0 .nav-item{display: inline-block; vertical-align: top;}
+	.menu .navbar .nav-item .nav-link { padding: 7px 20px; margin: 0 5px;}
+	.search {margin: 15px 0 0 0; width: 70%; max-width: 70%;  flex: 70%;}
+
+	.blue .responsive-tabs dt{background: #fff; width: 100%;}
+	.service-link{
+		display: none;
+	}
+}
+
+
+@media (max-width: 575px){
+	.col-md-2.logo{text-align: left;}
+	.logo a img{width: 70px;}
+	.navbar-toggler { position: absolute; right: 0; top: -60px;}
+	.cart { margin:7px 0 0 5px;}
+	.search{margin: 5px 0 0 0;}
+	.login{margin: 7px 0 0 0;}
+
+}

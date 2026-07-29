@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Helpers\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,7 +13,8 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (! auth()->user()?->isAdmin()) {
+            $user = auth()->user();
+            if (! $user?->isAdmin() && ! $user?->can('category-list')) {
                 abort(403, 'You are not authorized to access this area.');
             }
 
@@ -45,6 +47,7 @@ class CategoryController extends Controller
         $validated['user_id'] = auth()->id();
 
         Category::create($validated);
+        LogActivity::addToLog('Category added successfully.');
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
@@ -66,6 +69,7 @@ class CategoryController extends Controller
         $validated['parent_id'] = $validated['parent_id'] ?: 0;
 
         $category->update($validated);
+        LogActivity::addToLog('Category updated successfully.');
 
         return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
     }
@@ -73,8 +77,17 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+        LogActivity::addToLog('Category deleted successfully.');
 
         return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully.');
+    }
+
+    public function changeStatus(Category $category)
+    {
+        $category->update(['status' => $category->status ? 0 : 1]);
+        LogActivity::addToLog('Category status changed successfully.');
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
     }
 
     private function validateCategory(Request $request, ?int $id = null): array
