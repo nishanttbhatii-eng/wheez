@@ -23,12 +23,12 @@ class HomeController extends Controller
             'heroDescription' => $page?->content ?: "At Whizseed, we're dedicated to fueling your entrepreneurial fire. Our services and expert guidance empower startups and entrepreneurs across India to build, grow, and prosper.",
         ]);
     }
-
-    public function homeNew(): RedirectResponse
+     public function homeNew(): View
     {
-        return redirect()->route('services.show', 'msme-registration');
+        return view('front.home-new', [
+            'activeNav' => 'home',
+        ]);
     }
-
     public function services(): View
     {
         $page = Page::published()->where('slug', 'services')->first();

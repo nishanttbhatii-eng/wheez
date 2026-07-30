@@ -35,26 +35,57 @@
           <div class="hn-hero__process">
             <p class="hn-hero__process-label">- {{ $service->processLabel() }}</p>
             <div class="hn-hero__steps">
-              @foreach($processSteps as $step)
-                <div class="hn-hero__step">
-                  <div class="hn-hero__step-icon" aria-hidden="true">{!! $step['icon'] !!}</div>
-                  <p class="hn-hero__step-text">{{ $step['text'] }}</p>
+              <div class="hn-hero__step">
+                <div class="hn-hero__step-icon" aria-hidden="true">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="8" y="14" width="22" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M12 28V34H26V28" stroke="currentColor" stroke-width="1.6"/><circle cx="34" cy="18" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M28 32c1.5-3 4-4.5 6-4.5s4.5 1.5 6 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
                 </div>
-              @endforeach
+                <p class="hn-hero__step-text">Get in touch with our experts</p>
+              </div>
+              <div class="hn-hero__step">
+                <div class="hn-hero__step-icon" aria-hidden="true">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M16 10h12l8 8v20a2 2 0 01-2 2H16a2 2 0 01-2-2V12a2 2 0 012-2z" stroke="currentColor" stroke-width="1.6"/><path d="M28 10v8h8M20 24h12M20 30h12M20 36h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </div>
+                <p class="hn-hero__step-text">Provide all the details and we will prepare all your documents</p>
+              </div>
+              <div class="hn-hero__step">
+                <div class="hn-hero__step-icon" aria-hidden="true">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="12" y="8" width="24" height="32" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="22" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M18 34h12M21 18l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <p class="hn-hero__step-text">Finally submit your application and get your MSME Registration.</p>
+              </div>
             </div>
           </div>
 
           <div class="hn-hero__features-wrap">
             <div class="hn-hero__features js-hero-features-slider">
-              @foreach($heroFeatures as $feature)
-                <div class="hn-hero__feature">
-                  <span class="hn-hero__feature-icon" aria-hidden="true">✦</span>
-                  <div>
-                    <strong>{{ $feature['title'] }}</strong>
-                    <span>{{ $feature['text'] }}</span>
-                  </div>
+              <div class="hn-hero__feature">
+                <span class="hn-hero__feature-icon" aria-hidden="true">✦</span>
+                <div>
+                  <strong>Support</strong>
+                  <span>99% of services will be delivered on time</span>
                 </div>
-              @endforeach
+              </div>
+              <div class="hn-hero__feature">
+                <span class="hn-hero__feature-icon" aria-hidden="true">✦</span>
+                <div>
+                  <strong>4.8/5 Google Rating</strong>
+                  <span>Customers rated us 5 star in Google</span>
+                </div>
+              </div>
+              <div class="hn-hero__feature">
+                <span class="hn-hero__feature-icon" aria-hidden="true">✦</span>
+                <div>
+                  <strong>18+ Experience</strong>
+                  <span>Every Experience Tells a Story</span>
+                </div>
+              </div>
+              <div class="hn-hero__feature">
+                <span class="hn-hero__feature-icon" aria-hidden="true">✦</span>
+                <div>
+                  <strong>Reasonable</strong>
+                  <span>Competitive Price, quality service</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -89,7 +120,7 @@
             <div class="hn-consult__field">
               <select name="state" required>
                 <option value="">Select State</option>
-                @foreach($states as $state)
+                @foreach(config('indian_states') as $state)
                   <option value="{{ $state }}" @selected(old('state') === $state)>{{ $state }}</option>
                 @endforeach
               </select>
@@ -130,13 +161,11 @@
     <section class="hn-tabs-wrap">
       <div class="container">
         <nav class="hn-tabs" aria-label="Page sections">
-          @foreach($tabs as $index => $tab)
-            <a
-              href="#{{ $tab['id'] }}"
-              class="hn-tabs__item {{ $index === 0 ? 'hn-tabs__item--active' : '' }}"
-              data-tab="{{ $tab['id'] }}"
-            >{{ $tab['label'] }}</a>
-          @endforeach
+          <a href="#overview" class="hn-tabs__item hn-tabs__item--active" data-tab="overview">Overview</a>
+          <a href="#key-points" class="hn-tabs__item" data-tab="key-points">Key Points</a>
+          <a href="#documents" class="hn-tabs__item" data-tab="documents">Documents</a>
+          <a href="#faq" class="hn-tabs__item" data-tab="faq">FAQ</a>
+          <a href="#pricing" class="hn-tabs__item" data-tab="pricing">Pricing</a>
         </nav>
       </div>
     </section>
@@ -147,7 +176,6 @@
 
         <div class="hn-main">
 
-          {{-- Overview content --}}
           <article class="hn-card" id="overview">
             <h1 class="hn-card__title">Overview of {{ $service->name }}</h1>
             <div class="hn-card__body hn-card__body--rich">
@@ -155,43 +183,116 @@
             </div>
           </article>
 
-          @if(!empty($extraHtml))
-            <article class="hn-card">
-              <h2 class="hn-card__title">More about {{ $service->name }}</h2>
-              <div class="hn-card__body hn-card__body--rich">
-                {!! $extraHtml !!}
-              </div>
-            </article>
-          @endif
-
-          @if(!empty($categories))
-          {{-- Category cards --}}
-          <div class="hn-categories js-category-slider" id="key-points">
-            @foreach($categories as $category)
-              <article class="hn-category-card">
-                <h3 class="hn-category-card__title">{{ $category['title'] }}</h3>
-                <p class="hn-category-card__text">{{ $category['text'] }}</p>
-              </article>
-            @endforeach
-          </div>
-          @else
-            <div id="key-points"></div>
-          @endif
-
-          @if(!empty($checklist))
-          {{-- Checklist --}}
-          <article class="hn-card" id="documents">
-            <h2 class="hn-card__title">Checklist for {{ $service->name }}</h2>
+          <article class="hn-card">
+            <h2 class="hn-card__title">What do you Understand through MSME Registration?</h2>
             <div class="hn-card__body">
+              <p>MSME Registration under the MSMED Act, 2006 provides official recognition to micro, small, and medium enterprises. It validates your enterprise category based on investment in plant &amp; machinery / equipment and annual turnover.</p>
+              <p>Once registered, businesses become eligible for priority sector lending, reduced interest rates, protection against delayed payments, and multiple central &amp; state government schemes.</p>
+            </div>
+          </article>
+
+          <article class="hn-card">
+            <h2 class="hn-card__title">MSMEs' Maximum Turnover Limit in India</h2>
+            <div class="hn-card__body">
+              <p>As per the revised classification, Micro enterprises can have turnover up to ₹5 crore, Small enterprises up to ₹50 crore, and Medium enterprises up to ₹250 crore — subject to corresponding investment limits.</p>
+              <p>These thresholds apply uniformly to both manufacturing and service enterprises, making the classification simpler and more inclusive.</p>
+            </div>
+          </article>
+
+          {{-- MSME Categories --}}
+          <article class="hn-card" id="key-points">
+            <h2 class="hn-card__title">Categories of Micro Small and Medium Enterprises in India</h2>
+            <div class="hn-card__body">
+              <p>According to their annually revenues and the amount they invest in machinery, plants, or machinery, MSMEs in India are divided into three distinct groups:</p>
+            </div>
+            <div class="hn-categories js-category-slider">
+              <article class="hn-category-card">
+                <span class="hn-category-card__icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21h18"/>
+                    <path d="M5 21V8l7-4 7 4v13"/>
+                    <path d="M9 21v-6h6v6"/>
+                    <path d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/>
+                  </svg>
+                </span>
+                <h3 class="hn-category-card__title">Micro Companies:</h3>
+                <p class="hn-category-card__text">These are the companies whose yearly sales are under ₹5 crore and whose machinery, plants, or equipment investments are up to ₹1 crore.</p>
+              </article>
+              <article class="hn-category-card">
+                <span class="hn-category-card__icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21h18"/>
+                    <path d="M5 21V8l7-4 7 4v13"/>
+                    <path d="M9 21v-6h6v6"/>
+                    <path d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/>
+                  </svg>
+                </span>
+                <h3 class="hn-category-card__title">Small-scale Enterprises:</h3>
+                <p class="hn-category-card__text">These companies or enterprises are those that have an annual revenue of more than ₹50 crores and up to ₹10 crores in plants, devices, or technology.</p>
+              </article>
+              <article class="hn-category-card">
+                <span class="hn-category-card__icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21h18"/>
+                    <path d="M5 21V8l7-4 7 4v13"/>
+                    <path d="M9 21v-6h6v6"/>
+                    <path d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/>
+                  </svg>
+                </span>
+                <h3 class="hn-category-card__title">Medium-sized Firms:</h3>
+                <p class="hn-category-card__text">They are those that have a yearly income of slightly more than ₹250 crores and commit up to ₹50 crores in plants, machines, or technology.</p>
+              </article>
+            </div>
+          </article>
+
+          {{-- Checklist --}}
+          <article class="hn-card" id="checklist">
+            <h2 class="hn-card__title">Checklist for doing MSME Registration in India</h2>
+            <div class="hn-card__body">
+              <p>Any company can apply for registration as an MSME in India if it meets its investment and turnover criteria and falls under the category of a micro, small, or medium enterprise. This covers companies in both the production and service sectors. The corporation is a corporation, partnership, sole proprietorship, private limited company, or any other type of organization authorized by law. In order to register as MSME in India you must check the following things described or given below:</p>
               <ul class="hn-checklist">
-                @foreach($checklist as $item)
-                  <li>
-                    <span class="hn-checklist__icon" aria-hidden="true">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
-                    </span>
-                    <span>{{ $item }}</span>
-                  </li>
-                @endforeach
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Check investment in plants and machinery for manufacturing.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Investment in equipment for service enterprises.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Micro, small, and medium enterprise classifications.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Turnover criteria for medium-sized businesses.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Limited to Indian entities.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Exclusion of trading activities.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Self-declaration of investment and turnover.</span>
+                </li>
               </ul>
             </div>
           </article>
@@ -199,20 +300,155 @@
             <div id="documents"></div>
           @endif
 
-          @if(!empty($downloadSteps))
+          {{-- Documents required --}}
+              <p>The following papers are needed in India to register an MSME, hence before starting the registration procedure make sure you are having the following papers in your hand:</p>
+            </div>
+            <div class="hn-docs__grid">
+              <ul class="hn-docs__list">
+                <li>
+                  <span class="hn-docs__check" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Aadhaar Card:</strong>
+                    <span>The firm owner's Aadhaar card is required for confirmation.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="hn-docs__check" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>PAN Card:</strong>
+                    <span>The business's or the owner's PAN card.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="hn-docs__check" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Bank Account Details:</strong>
+                    <span>Data on a company's bank account, comprising the account information and the address of the bank that holds it.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="hn-docs__check" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Additional Business Details:</strong>
+                    <span>Specifics regarding the nature, location, and functioning of a company. In the business details evidence of business address proof may also be required.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="hn-docs__check" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Entity Documents:</strong>
+                    <span>Depending on the type of entity these documents may vary like for LLPs LLP Deed will be needed, for partnership firms partnership deed will be required and similarly for corporate entities MOA, AOA, CIN, DSC, DIN etc will be required.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="hn-docs__check" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Contact Details:</strong>
+                    <span>Make sure to obtain contact details like phone number and e-mail address of the applicant.</span>
+                  </div>
+                </li>
+              </ul>
+              <div class="hn-docs__media">
+                <img
+                  src="{{ asset('Image/vectorpng.png') }}"
+                  alt="Business team reviewing MSME registration documents"
+                  width="420"
+                  height="360"
+                  loading="lazy"
+                >
+              </div>
+            </div>
+          </article>
+          <article class="hn-card" id="checklist">
+            <h2 class="hn-card__title">Checklist for doing MSME Registration in India</h2>
+            <div class="hn-card__body">
+              <p>Any company can apply for registration as an MSME in India if it meets its investment and turnover criteria and falls under the category of a micro, small, or medium enterprise. This covers companies in both the production and service sectors. The corporation is a corporation, partnership, sole proprietorship, private limited company, or any other type of organization authorized by law. In order to register as MSME in India you must check the following things described or given below:</p>
+              <ul class="hn-checklist">
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Check investment in plants and machinery for manufacturing.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Investment in equipment for service enterprises.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Micro, small, and medium enterprise classifications.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Turnover criteria for medium-sized businesses.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Limited to Indian entities.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Exclusion of trading activities.</span>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <span>Self-declaration of investment and turnover.</span>
+                </li>
+              </ul>
+            </div>
+          </article>
           {{-- Download certificate --}}
           <article class="hn-dark-card">
             <h2 class="hn-dark-card__title">How to complete {{ $service->name }}?</h2>
-            <p class="hn-dark-card__desc">Follow these steps with Whizseed expert support.</p>
             <ul class="hn-dark-steps">
-              @foreach($downloadSteps as $step)
-                <li>
-                  <span class="hn-dark-steps__icon" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
-                  </span>
-                  <span>{{ $step }}</span>
-                </li>
-              @endforeach
+              <li>
+                <span class="hn-dark-steps__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Log in to the Udyam Registration portal with your registered credentials.</span>
+              </li>
+              <li>
+                <span class="hn-dark-steps__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Open your Udyam dashboard and select Print / Download Certificate.</span>
+              </li>
+              <li>
+                <span class="hn-dark-steps__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Verify enterprise details shown on the certificate preview.</span>
+              </li>
+              <li>
+                <span class="hn-dark-steps__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Download the PDF certificate and keep a digital &amp; printed copy.</span>
+              </li>
             </ul>
           </article>
           @endif
@@ -221,32 +457,240 @@
           <article class="hn-card" id="pricing">
             <h2 class="hn-card__title">Pricing</h2>
             <div class="hn-card__body">
-              <p>
-                Starting at
-                <strong>₹{{ number_format((float) $service->price, 0) }}</strong>
-                @if($service->mrp_price > $service->price)
-                  <span style="text-decoration:line-through;opacity:.6;margin-left:.35rem">₹{{ number_format((float) $service->mrp_price, 0) }}</span>
-                @endif
-              </p>
+              <p>Both startups and MSMEs are vital to India's economic growth, yet they differ in several important ways:</p>
+              <ul class="hn-checklist">
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Generation of the Business:</strong>
+                    <span>Startups are typically founded by entrepreneurs chasing innovative ideas, while MSMEs often grow from traditional family or local businesses.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Goal:</strong>
+                    <span>MSMEs usually aim for stability and steady income, whereas startups focus on innovation, disruption, and rapid growth.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Licensing and Help:</strong>
+                    <span>Startups may receive recognition and benefits under Startup India, while MSMEs access federal programs, subsidies, and priority lending schemes.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="hn-checklist__icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                  </span>
+                  <div>
+                    <strong>Scale and Description:</strong>
+                    <span>MSMEs often serve local or regional markets, while startups are built to scale nationally or globally with technology-led models.</span>
+                  </div>
+                </li>
+              </ul>
             </div>
           </article>
           @endif
+
+          <article class="hn-card">
+            <h2 class="hn-card__title">Are MSME and Udyam Registration Same?</h2>
+            <div class="hn-card__body">
+              <p>Yes. MSME registration and Udyam registration refer to the same government process. Udyam is the official online portal through which enterprises register as Micro, Small, or Medium Enterprises and receive their Udyam Registration Certificate.</p>
+            </div>
+          </article>
+
+          <article class="hn-card hn-card--media">
+            <img
+              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=640&fit=crop&auto=format"
+              alt="Worker operating machinery in a manufacturing unit"
+              class="hn-media-img"
+              width="1200"
+              height="640"
+              loading="lazy"
+            >
+          </article>
+
+          <article class="hn-card">
+            <h2 class="hn-card__title">Is Registration as an MSME Mandatory for Businesses?</h2>
+            <div class="hn-card__body">
+              <p>MSME registration is not mandatory, but it is strongly advised. Without Udyam registration, businesses may miss out on government incentives, collateral-free loans, tender advantages, and delayed-payment safeguards under the MSMED Act.</p>
+            </div>
+          </article>
+
+          <article class="hn-card">
+            <h2 class="hn-card__title">Why Choose Whizseed for MSME?</h2>
+            <div class="hn-card__body">
+              <p>Whizseed makes MSME registration simple, accurate, and fast. From classification and documentation to portal filing and certificate delivery, our experts handle the process end-to-end so you can focus on growing your business.</p>
+            </div>
+            <img
+              src="{{ asset('frontend/assets/images1/groupconttt.jpg') }}"
+              alt="Whizseed team collaborating in office"
+              class="hn-media-img hn-media-img--inset"
+              width="1200"
+              height="560"
+              loading="lazy"
+            >
+            <div class="hn-why">
+              <div class="hn-why__stats">
+                <div class="hn-why__stat">
+                  <span class="hn-why__stat-label">BUSINESS EMPOWERED</span>
+                  <strong class="hn-why__stat-value">1800+</strong>
+                </div>
+                <div class="hn-why__stat">
+                  <span class="hn-why__stat-label">OF INDUSTRY EXPERIENCE</span>
+                  <strong class="hn-why__stat-value">3+ Year</strong>
+                </div>
+                <div class="hn-why__stat">
+                  <span class="hn-why__stat-label">CLIENT SATISFACTION</span>
+                  <strong class="hn-why__stat-value">98%</strong>
+                </div>
+              </div>
+              <div class="hn-why__features">
+                <article class="hn-why__feature">
+                  <span class="hn-why__feature-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 8h4M7 12h10M7 16h6"/><path d="M3 20h18"/></svg>
+                  </span>
+                  <h3>Simplified Dashboard Experience</h3>
+                </article>
+                <article class="hn-why__feature">
+                  <span class="hn-why__feature-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-3.5 10.8c.7.5 1.1 1.2 1.2 2.2h4.6c.1-1 .5-1.7 1.2-2.2A6 6 0 0012 3z"/></svg>
+                  </span>
+                  <h3>Your Questions, Our Priority</h3>
+                </article>
+                <article class="hn-why__feature">
+                  <span class="hn-why__feature-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c.5-1 1.5-1.5 2.5-1.5s2 .6 2.5 1.5c.4.8 0 1.5-1 2l-3 1.5c-1 .5-1.4 1.2-1 2 .5 1 1.5 1.5 2.5 1.5s2-.5 2.5-1.5"/></svg>
+                  </span>
+                  <h3>Premium Expertise, Budget-Friendly Rates</h3>
+                </article>
+                <article class="hn-why__feature">
+                  <span class="hn-why__feature-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/><circle cx="9.5" cy="7" r="3.5"/><path d="M20 21v-2a3.5 3.5 0 00-2.5-3.3M16 3.5a3.5 3.5 0 010 7"/></svg>
+                  </span>
+                  <h3>A Comprehensive Hub of Legal Experts</h3>
+                </article>
+              </div>
+            </div>
+
+            <ul class="hn-checklist hn-checklist--plain">
+              <li>
+                <span class="hn-checklist__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Expertise in MSME registration process.</span>
+              </li>
+              <li>
+                <span class="hn-checklist__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Dedicated support for clients.</span>
+              </li>
+              <li>
+                <span class="hn-checklist__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Streamlined registration procedure.</span>
+              </li>
+              <li>
+                <span class="hn-checklist__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Experienced professionals.</span>
+              </li>
+              <li>
+                <span class="hn-checklist__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Timely completion of registrations.</span>
+              </li>
+              <li>
+                <span class="hn-checklist__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Compliance with MSME regulations.</span>
+              </li>
+              <li>
+                <span class="hn-checklist__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Access to government benefits.</span>
+              </li>
+              <li>
+                <span class="hn-checklist__icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span>Transparent communication.</span>
+              </li>
+            </ul>
+          </article>
 
           {{-- FAQ --}}
           <article class="hn-card hn-faq" id="faq">
             <h2 class="hn-card__title">Frequently Asked Questions</h2>
             <div class="hn-faq__list">
-              @foreach($faqs as $index => $faq)
-                <div class="hn-faq__item {{ $index === 0 ? 'is-open' : '' }}">
-                  <button type="button" class="hn-faq__question" aria-expanded="{{ $index === 0 ? 'true' : 'false' }}">
-                    <span>{{ $faq['q'] }}</span>
-                    <span class="hn-faq__icon" aria-hidden="true">+</span>
-                  </button>
-                  <div class="hn-faq__answer">
-                    <p>{{ $faq['a'] }}</p>
-                  </div>
+              <div class="hn-faq__item is-open">
+                <button type="button" class="hn-faq__question" aria-expanded="true">
+                  <span>What are some of the benefits of signing up for MSMEs?</span>
+                  <span class="hn-faq__icon" aria-hidden="true">+</span>
+                </button>
+                <div class="hn-faq__answer">
+                  <p>MSMEs get easier access to credit, subsidies, tax benefits, delayed-payment protection, and preference in government tenders.</p>
                 </div>
-              @endforeach
+              </div>
+              <div class="hn-faq__item">
+                <button type="button" class="hn-faq__question" aria-expanded="false">
+                  <span>Is it free to register for MSME?</span>
+                  <span class="hn-faq__icon" aria-hidden="true">+</span>
+                </button>
+                <div class="hn-faq__answer">
+                  <p>Yes. Udyam Registration on the official government portal is completely free of cost.</p>
+                </div>
+              </div>
+              <div class="hn-faq__item">
+                <button type="button" class="hn-faq__question" aria-expanded="false">
+                  <span>Can I change the information I provided during filing the application for MSME later?</span>
+                  <span class="hn-faq__icon" aria-hidden="true">+</span>
+                </button>
+                <div class="hn-faq__answer">
+                  <p>Yes. You can update most enterprise details later through the Udyam portal using your registration credentials.</p>
+                </div>
+              </div>
+              <div class="hn-faq__item">
+                <button type="button" class="hn-faq__question" aria-expanded="false">
+                  <span>Is MSME registration necessary for all companies?</span>
+                  <span class="hn-faq__icon" aria-hidden="true">+</span>
+                </button>
+                <div class="hn-faq__answer">
+                  <p>It is not mandatory, but strongly recommended for eligible businesses that want scheme benefits and compliance advantages.</p>
+                </div>
+              </div>
+              <div class="hn-faq__item">
+                <button type="button" class="hn-faq__question" aria-expanded="false">
+                  <span>How much time will it take to get MSME status?</span>
+                  <span class="hn-faq__icon" aria-hidden="true">+</span>
+                </button>
+                <div class="hn-faq__answer">
+                  <p>Udyam registration is usually instantaneous after successful submission and OTP verification.</p>
+                </div>
+              </div>
+              <div class="hn-faq__item">
+                <button type="button" class="hn-faq__question" aria-expanded="false">
+                  <span>How Whizseed helps while getting this MSME Registration?</span>
+                  <span class="hn-faq__icon" aria-hidden="true">+</span>
+                </button>
+                <div class="hn-faq__answer">
+                  <p>Whizseed handles classification, documentation, portal filing, and certificate delivery so you can focus on running your business.</p>
+                </div>
+              </div>
             </div>
           </article>
 
@@ -279,28 +723,86 @@
               <span class="hn-reviews__square" aria-hidden="true"></span>
             </h2>
             <div class="hn-reviews__slider js-reviews-slider">
-              @foreach($reviews as $review)
-                <div class="hn-review-card">
-                  <div class="hn-review-card__bg">
-                    <img src="{{ $review['image'] }}" alt="" loading="lazy">
-                    <div class="hn-review-card__overlay"></div>
-                  </div>
-                  <div class="hn-review-card__content">
-                    <p class="hn-review-card__text">"{{ $review['text'] }}"</p>
-                    <div class="hn-review-card__divider"></div>
-                    <div class="hn-review-card__footer">
-                      <img src="{{ $review['avatar'] }}" alt="" class="hn-review-card__avatar" loading="lazy">
-                      <div>
-                        <span class="hn-review-card__badge">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
-                          Google
-                        </span>
-                        <span class="hn-review-card__name">{{ $review['name'] }}</span>
-                      </div>
+              <div class="hn-review-card">
+                <div class="hn-review-card__bg">
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=520&fit=crop&auto=format" alt="" loading="lazy">
+                  <div class="hn-review-card__overlay"></div>
+                </div>
+                <div class="hn-review-card__content">
+                  <p class="hn-review-card__text">"I had a great experience getting my FSSAI license in Noida. The team was highly professional, guided me through the entire process. Their expertise made the registration quick and hassle-free. Thank you"</p>
+                  <div class="hn-review-card__divider"></div>
+                  <div class="hn-review-card__footer">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&auto=format" alt="" class="hn-review-card__avatar" loading="lazy">
+                    <div>
+                      <span class="hn-review-card__badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
+                        Google
+                      </span>
+                      <span class="hn-review-card__name">Neha Roop</span>
                     </div>
                   </div>
                 </div>
-              @endforeach
+              </div>
+              <div class="hn-review-card">
+                <div class="hn-review-card__bg">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=520&fit=crop&auto=format" alt="" loading="lazy">
+                  <div class="hn-review-card__overlay"></div>
+                </div>
+                <div class="hn-review-card__content">
+                  <p class="hn-review-card__text">"I had a great experience getting my FSSAI license in Noida. The team was highly professional, guided me through the entire process. Their expertise made the registration quick and hassle-free. Thank you"</p>
+                  <div class="hn-review-card__divider"></div>
+                  <div class="hn-review-card__footer">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&auto=format" alt="" class="hn-review-card__avatar" loading="lazy">
+                    <div>
+                      <span class="hn-review-card__badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
+                        Google
+                      </span>
+                      <span class="hn-review-card__name">Hardeep Singh</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="hn-review-card">
+                <div class="hn-review-card__bg">
+                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=520&fit=crop&auto=format" alt="" loading="lazy">
+                  <div class="hn-review-card__overlay"></div>
+                </div>
+                <div class="hn-review-card__content">
+                  <p class="hn-review-card__text">"I had a great experience getting my FSSAI license in Noida. The team was highly professional, guided me through the entire process. Their expertise made the registration quick and hassle-free. Thank you"</p>
+                  <div class="hn-review-card__divider"></div>
+                  <div class="hn-review-card__footer">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=64&h=64&fit=crop&auto=format" alt="" class="hn-review-card__avatar" loading="lazy">
+                    <div>
+                      <span class="hn-review-card__badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
+                        Google
+                      </span>
+                      <span class="hn-review-card__name">Sumitra Mahato</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="hn-review-card">
+                <div class="hn-review-card__bg">
+                  <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=520&fit=crop&auto=format" alt="" loading="lazy">
+                  <div class="hn-review-card__overlay"></div>
+                </div>
+                <div class="hn-review-card__content">
+                  <p class="hn-review-card__text">"I had a great experience getting my FSSAI license in Noida. The team was highly professional, guided me through the entire process. Their expertise made the registration quick and hassle-free. Thank you"</p>
+                  <div class="hn-review-card__divider"></div>
+                  <div class="hn-review-card__footer">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&auto=format" alt="" class="hn-review-card__avatar" loading="lazy">
+                    <div>
+                      <span class="hn-review-card__badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
+                        Google
+                      </span>
+                      <span class="hn-review-card__name">Arun Gupta</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -339,7 +841,7 @@
               <div class="hn-consult__field">
                 <select name="state" required>
                   <option value="">Select State</option>
-                  @foreach($states as $state)
+                  @foreach(config('indian_states') as $state)
                     <option value="{{ $state }}" @selected(old('state') === $state)>{{ $state }}</option>
                   @endforeach
                 </select>
@@ -359,8 +861,8 @@
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=96&h=96&fit=crop&auto=format"
                   alt="{{ $callerName }}"
                   class="hn-agent__avatar"
-                  width="48"
-                  height="48"
+                  width="52"
+                  height="52"
                   loading="lazy"
                 >
                 <div class="hn-agent__info">
@@ -369,7 +871,7 @@
                     <span class="hn-agent__status"><i></i> Online</span>
                   </div>
                   <div class="hn-agent__rating" aria-label="Rated 4.0 out of 5">
-                    <span>★★★★</span><span class="hn-agent__rating-empty">★</span>
+                    <span>★★★★</span>
                     <span class="hn-agent__rating-value">(4.0)</span>
                   </div>
                 </div>
@@ -379,11 +881,15 @@
               @endif
               <div class="hn-agent__actions">
                 <a href="tel:9625432342" class="hn-agent__btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#e91e63"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                  <span class="hn-agent__btn-icon hn-agent__btn-icon--call" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                  </span>
                   Call US Now
                 </a>
                 <a href="https://wa.me/919625432342" class="hn-agent__btn" target="_blank" rel="noopener">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  <span class="hn-agent__btn-icon hn-agent__btn-icon--chat" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                  </span>
                   Chat With Us
                 </a>
               </div>
@@ -392,9 +898,10 @@
             <div class="hn-other">
               <h3 class="hn-other__title">Other Services</h3>
               <div class="hn-other__tags">
-                @foreach($otherServices as $related)
-                  <a href="{{ route('services.show', $related->slug) }}" class="hn-other__tag">{{ $related->name }}</a>
-                @endforeach
+                <a href="{{ route('services') }}" class="hn-other__tag">MSME Registration</a>
+                <a href="{{ route('services') }}" class="hn-other__tag">Private Limited</a>
+                <a href="{{ route('services') }}" class="hn-other__tag">Company Registration</a>
+                <a href="{{ route('services') }}" class="hn-other__tag">Trademark Assignment</a>
               </div>
             </div>
 
