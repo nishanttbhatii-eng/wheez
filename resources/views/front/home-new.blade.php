@@ -27,13 +27,13 @@
             <span class="hn-hero__rating-text">4.9 (1,200 reviews)</span>
           </div>
 
-          <h1 class="hn-hero__title">MSME Registration</h1>
+          <h1 class="hn-hero__title">{{ $service->name }}</h1>
           <p class="hn-hero__desc">
-            Unlock government schemes, easier credit, and compliance benefits with Udyam / MSME registration. Whizseed handles the paperwork end-to-end so you can focus on growing your business.
+            {{ $service->heroDescription() }}
           </p>
 
           <div class="hn-hero__process">
-            <p class="hn-hero__process-label">- MSME Process</p>
+            <p class="hn-hero__process-label">- {{ $service->processLabel() }}</p>
             <div class="hn-hero__steps">
               @foreach($processSteps as $step)
                 <div class="hn-hero__step">
@@ -60,13 +60,12 @@
         </div>
 
         <aside class="hn-hero__aside">
-          <form class="hn-consult hn-consult--hero" action="{{ route('contact.submit') }}" method="post" novalidate>
+          <form class="hn-consult hn-consult--hero" action="{{ route('services.enquire', $service->slug) }}" method="post" novalidate>
             @csrf
-            <input type="hidden" name="redirect_to" value="home.new">
             <h2 class="hn-consult__title">Consultation by Expert</h2>
 
-            @if(session('contact_success'))
-              <div class="hn-consult__success" role="status">{{ session('contact_success') }}</div>
+            @if(session('service_enquiry_success'))
+              <div class="hn-consult__success" role="status">{{ session('service_enquiry_success') }}</div>
             @endif
 
             <div class="hn-consult__field">
@@ -148,46 +147,24 @@
 
         <div class="hn-main">
 
-          {{-- Overview content (static) --}}
+          {{-- Overview content --}}
           <article class="hn-card" id="overview">
-            <h1 class="hn-card__title">Overview of MSME Registration</h1>
-            <div class="hn-card__body">
-              <p>Micro, Small, and Medium-Sized Enterprises (MSMEs) form the backbone of India's economy. They contribute significantly to employment generation, industrial output, and exports across manufacturing and service sectors.</p>
-              <p>MSME Registration (Udyam Registration) is a government recognition that helps businesses access subsidies, easier credit, tax benefits, and preferential treatment in public procurement.</p>
-              <h3>Key Points</h3>
-              <ul>
-                <li>Visit the Udyam Registration portal and create an account with Aadhaar-linked mobile.</li>
-                <li>Provide PAN, GSTIN (if applicable), and business activity details.</li>
-                <li>Declare investment and turnover as per the latest MSME classification.</li>
-                <li>Download and save your Udyam Registration Certificate instantly.</li>
-              </ul>
+            <h1 class="hn-card__title">Overview of {{ $service->name }}</h1>
+            <div class="hn-card__body hn-card__body--rich">
+              {!! $overviewHtml !!}
             </div>
           </article>
 
-          <article class="hn-card">
-            <h2 class="hn-card__title">What do you Understand through MSME Registration?</h2>
-            <div class="hn-card__body">
-              <p>MSME Registration under the MSMED Act, 2006 provides official recognition to micro, small, and medium enterprises. It validates your enterprise category based on investment in plant &amp; machinery / equipment and annual turnover.</p>
-              <p>Once registered, businesses become eligible for priority sector lending, reduced interest rates, protection against delayed payments, and multiple central &amp; state government schemes.</p>
-            </div>
-          </article>
+          @if(!empty($extraHtml))
+            <article class="hn-card">
+              <h2 class="hn-card__title">More about {{ $service->name }}</h2>
+              <div class="hn-card__body hn-card__body--rich">
+                {!! $extraHtml !!}
+              </div>
+            </article>
+          @endif
 
-          <article class="hn-card">
-            <h2 class="hn-card__title">MSMEs' Maximum Turnover Limit in India</h2>
-            <div class="hn-card__body">
-              <p>As per the revised classification, Micro enterprises can have turnover up to ₹5 crore, Small enterprises up to ₹50 crore, and Medium enterprises up to ₹250 crore — subject to corresponding investment limits.</p>
-              <p>These thresholds apply uniformly to both manufacturing and service enterprises, making the classification simpler and more inclusive.</p>
-            </div>
-          </article>
-
-          <article class="hn-card">
-            <h2 class="hn-card__title">Is Registration as an MSME Mandatory for Businesses?</h2>
-            <div class="hn-card__body">
-              <p>MSME registration is not mandatory, but it is highly recommended. Without Udyam registration, businesses may miss out on government incentives, collateral-free loans, tender advantages, and delayed-payment safeguards under the MSMED Act.</p>
-              <p>Whizseed helps you complete registration quickly with accurate classification and documentation support.</p>
-            </div>
-          </article>
-
+          @if(!empty($categories))
           {{-- Category cards --}}
           <div class="hn-categories js-category-slider" id="key-points">
             @foreach($categories as $category)
@@ -197,12 +174,15 @@
               </article>
             @endforeach
           </div>
+          @else
+            <div id="key-points"></div>
+          @endif
 
+          @if(!empty($checklist))
           {{-- Checklist --}}
           <article class="hn-card" id="documents">
-            <h2 class="hn-card__title">Checklist for doing MSME Registration in India</h2>
+            <h2 class="hn-card__title">Checklist for {{ $service->name }}</h2>
             <div class="hn-card__body">
-              <p>Any business structure — proprietorship, partnership, LLP, company, or cooperative — can apply for MSME registration if it meets the investment and turnover criteria.</p>
               <ul class="hn-checklist">
                 @foreach($checklist as $item)
                   <li>
@@ -215,37 +195,15 @@
               </ul>
             </div>
           </article>
+          @else
+            <div id="documents"></div>
+          @endif
 
-          {{-- Document requirements --}}
-          <article class="hn-card hn-card--soft">
-            <div class="hn-card__body">
-              <ul class="hn-checklist">
-                <li>
-                  <span class="hn-checklist__icon" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
-                  </span>
-                  <div>
-                    <strong>Entity Documents</strong>
-                    <p>LLPs, partnership firms, and corporate entities need MOA, AOA, CIN / LLPIN, and partnership deed as applicable.</p>
-                  </div>
-                </li>
-                <li>
-                  <span class="hn-checklist__icon" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>
-                  </span>
-                  <div>
-                    <strong>Contact Details</strong>
-                    <p>Aadhaar-linked mobile number and active email address of the authorized person for OTP verification.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </article>
-
+          @if(!empty($downloadSteps))
           {{-- Download certificate --}}
           <article class="hn-dark-card">
-            <h2 class="hn-dark-card__title">How to Download Certificate of MSME Registration?</h2>
-            <p class="hn-dark-card__desc">Follow these simple steps to download your Udyam Registration Certificate after successful filing.</p>
+            <h2 class="hn-dark-card__title">How to complete {{ $service->name }}?</h2>
+            <p class="hn-dark-card__desc">Follow these steps with Whizseed expert support.</p>
             <ul class="hn-dark-steps">
               @foreach($downloadSteps as $step)
                 <li>
@@ -257,14 +215,22 @@
               @endforeach
             </ul>
           </article>
+          @endif
 
-          {{-- Distinctions --}}
-          <article class="hn-card">
-            <h2 class="hn-card__title">Key Distinctions Between Startups and MSMEs</h2>
+          @if($service->price > 0)
+          <article class="hn-card" id="pricing">
+            <h2 class="hn-card__title">Pricing</h2>
             <div class="hn-card__body">
-              <p>Startups typically focus on innovation, scalability, and high growth, often recognized under DPIIT. MSMEs are classified by investment and turnover and cover a broader set of traditional and modern enterprises. Many startups can also register as MSMEs to unlock dual benefits.</p>
+              <p>
+                Starting at
+                <strong>₹{{ number_format((float) $service->price, 0) }}</strong>
+                @if($service->mrp_price > $service->price)
+                  <span style="text-decoration:line-through;opacity:.6;margin-left:.35rem">₹{{ number_format((float) $service->mrp_price, 0) }}</span>
+                @endif
+              </p>
             </div>
           </article>
+          @endif
 
           {{-- FAQ --}}
           <article class="hn-card hn-faq" id="faq">
@@ -289,27 +255,22 @@
             <div class="hn-author__media">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=240&h=240&fit=crop&auto=format"
-                alt="Maya Chen"
+                alt="Whizseed Expert"
                 width="120"
                 height="120"
                 loading="lazy"
               >
-              <span class="hn-author__badge">Content Writer</span>
+              <span class="hn-author__badge">Expert Guide</span>
             </div>
             <div class="hn-author__content">
-              <h3 class="hn-author__name">
-                Maya Chen
-                <a href="#" class="hn-author__linkedin" aria-label="LinkedIn" rel="noopener">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                </a>
-              </h3>
-              <p class="hn-author__meta">Written by Maya Chen · Last updated on May 4 2026, 02:33 PM</p>
-              <p class="hn-author__bio">Maya specializes in Indian business compliance, company law, and startup documentation. She writes practical guides that help founders navigate registrations, filings, and growth-ready legal foundations.</p>
+              <h3 class="hn-author__name">Whizseed Content Team</h3>
+              <p class="hn-author__meta">Updated {{ optional($service->updated_at)->format('M j, Y') }}</p>
+              <p class="hn-author__bio">Practical guidance on Indian business registrations, compliance, and growth-ready legal foundations.</p>
             </div>
           </article>
 
           {{-- Client reviews (Slick) --}}
-          <section class="hn-reviews" id="pricing" aria-label="Client reviews">
+          <section class="hn-reviews" aria-label="Client reviews">
             <div class="hn-reviews__label">
               <span>— CLIENT REVIEWS —</span>
             </div>
@@ -349,13 +310,12 @@
         <aside class="hn-side">
           <div class="hn-side__sticky">
 
-            <form class="hn-consult" action="{{ route('contact.submit') }}" method="post" novalidate>
+            <form class="hn-consult" action="{{ route('services.enquire', $service->slug) }}" method="post" novalidate>
               @csrf
-              <input type="hidden" name="redirect_to" value="home.new">
               <h2 class="hn-consult__title">Consultation by Expert</h2>
 
-              @if(session('contact_success'))
-                <div class="hn-consult__success" role="status">{{ session('contact_success') }}</div>
+              @if(session('service_enquiry_success'))
+                <div class="hn-consult__success" role="status">{{ session('service_enquiry_success') }}</div>
               @endif
 
               <div class="hn-consult__field">
@@ -397,7 +357,7 @@
               <div class="hn-agent__top">
                 <img
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=96&h=96&fit=crop&auto=format"
-                  alt="Khushi"
+                  alt="{{ $callerName }}"
                   class="hn-agent__avatar"
                   width="48"
                   height="48"
@@ -405,7 +365,7 @@
                 >
                 <div class="hn-agent__info">
                   <div class="hn-agent__name-row">
-                    <span class="hn-agent__name">Khushi</span>
+                    <span class="hn-agent__name">{{ $callerName }}</span>
                     <span class="hn-agent__status"><i></i> Online</span>
                   </div>
                   <div class="hn-agent__rating" aria-label="Rated 4.0 out of 5">
@@ -414,6 +374,9 @@
                   </div>
                 </div>
               </div>
+              @if(!empty($callerDescription))
+                <p class="hn-agent__desc" style="font-size:.85rem;color:#666;margin:.75rem 0 0">{!! strip_tags($callerDescription, '<br><strong><em><p>') !!}</p>
+              @endif
               <div class="hn-agent__actions">
                 <a href="tel:9625432342" class="hn-agent__btn">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="#e91e63"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
@@ -429,8 +392,8 @@
             <div class="hn-other">
               <h3 class="hn-other__title">Other Services</h3>
               <div class="hn-other__tags">
-                @foreach($otherServices as $service)
-                  <a href="{{ route('services') }}" class="hn-other__tag">{{ $service }}</a>
+                @foreach($otherServices as $related)
+                  <a href="{{ route('services.show', $related->slug) }}" class="hn-other__tag">{{ $related->name }}</a>
                 @endforeach
               </div>
             </div>

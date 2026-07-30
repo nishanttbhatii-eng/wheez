@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    # Subdirectory install (e.g. https://example.com/wheez/public/): uncomment and set your path:
+    # RewriteBase /wheez/public/
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

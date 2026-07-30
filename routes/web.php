@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\AdminUserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home-new', [HomeController::class, 'homeNew'])->name('home.new');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/services/{slug}', [HomeController::class, 'serviceShow'])->name('services.show');
 Route::post('/services/{slug}/enquire', [HomeController::class, 'serviceEnquire'])->name('services.enquire');
@@ -166,5 +167,5 @@ Route::redirect('/page/{slug}', '/{slug}', 301);
 
 // CMS pages at root slug (no /page/ prefix)
 Route::get('/{slug}', [HomeController::class, 'show'])
-    ->where('slug', '^(?!admin$|login$|services$|about-us$|contact-us$|privacy-policy$|terms-of-services$|term-of-use$)[A-Za-z0-9][A-Za-z0-9\-_/]*$')
+    ->where('slug', '^(?!admin$|login$|services$|home-new$|about-us$|contact-us$|privacy-policy$|terms-of-services$|term-of-use$)[A-Za-z0-9][A-Za-z0-9\-_/]*$')
     ->name('page.show');

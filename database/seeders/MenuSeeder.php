@@ -24,12 +24,19 @@ class MenuSeeder extends Seeder
 
     private function seedItem(array $item, ?int $parentId, string $location, int $order): void
     {
+        $type = $item['type'] ?? 'link';
+        $url = $item['url'] ?? null;
+
+        if ($type === 'link' && (empty($url) || $url === '#')) {
+            $url = $this->resolveServiceUrl($item['title'] ?? '');
+        }
+
         $menuItem = MenuItem::create([
             'parent_id' => $parentId,
             'title' => $item['title'],
-            'url' => $item['url'] ?? null,
+            'url' => $url,
             'location' => $location,
-            'type' => $item['type'] ?? 'link',
+            'type' => $type,
             'order' => $order,
             'is_active' => true,
             'open_in_new_tab' => $item['open_in_new_tab'] ?? false,
@@ -38,5 +45,27 @@ class MenuSeeder extends Seeder
         foreach ($item['children'] ?? [] as $childOrder => $child) {
             $this->seedItem($child, $menuItem->id, $location, $childOrder);
         }
+    }
+
+    private function resolveServiceUrl(string $title): ?string
+    {
+        static $byName = null;
+        static $bySlug = null;
+
+        if ($byName === null) {
+            $services = \App\Models\Service::query()
+                ->active()
+                ->where('service_type', 1)
+                ->get(['name', 'slug']);
+
+            $byName = $services->keyBy(fn ($s) => \Illuminate\Support\Str::lower(trim($s->name)));
+            $bySlug = $services->keyBy('slug');
+        }
+
+        $key = \Illuminate\Support\Str::lower(trim($title));
+        $slug = \Illuminate\Support\Str::slug($title);
+        $service = $byName->get($key) ?: $bySlug->get($slug);
+
+        return $service ? '/services/'.$service->slug : '#';
     }
 }

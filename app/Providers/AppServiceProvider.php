@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\MenuItem;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($root = config('app.url')) {
+            URL::forceRootUrl(rtrim($root, '/'));
+        }
+
         Paginator::useBootstrapFive();
         Paginator::defaultView('vendor.pagination.bootstrap-5');
 

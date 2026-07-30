@@ -24,6 +24,11 @@ class HomeController extends Controller
         ]);
     }
 
+    public function homeNew(): RedirectResponse
+    {
+        return redirect()->route('services.show', 'msme-registration');
+    }
+
     public function services(): View
     {
         $page = Page::published()->where('slug', 'services')->first();
@@ -49,21 +54,7 @@ class HomeController extends Controller
             ->where('service_type', 1)
             ->firstOrFail();
 
-        $states = Schema::hasTable('states') && State::query()->exists()
-            ? State::orderBy('name')->pluck('name')->all()
-            : config('indian_states');
-
-        return view('front.service', [
-            'service' => $service,
-            'states' => $states,
-            'activeNav' => 'services',
-            'heroFeatures' => config('service_page.hero_features'),
-            'serviceTabs' => config('service_page.tabs'),
-            'page' => (object) [
-                'document_title' => ($service->meta_title ?: $service->name) . ' | Whizseed',
-                'meta_description_text' => strip_tags($service->meta_description ?: $service->heroDescription()),
-            ],
-        ]);
+        return view('front.home-new', $this->servicePageData($service));
     }
 
     public function serviceEnquire(Request $request, string $slug): RedirectResponse
@@ -152,8 +143,10 @@ class HomeController extends Controller
             'status' => Enquiry::STATUS_NEW,
         ]);
 
+        $redirectRoute = $request->input('redirect_to') === 'home.new' ? 'home.new' : 'contact';
+
         return redirect()
-            ->route('contact')
+            ->route($redirectRoute)
             ->with('contact_success', 'Thanks! Your request has been received. Our team will get back to you shortly.');
     }
 
@@ -185,5 +178,120 @@ class HomeController extends Controller
         $page = Page::published()->where('slug', $slug)->firstOrFail();
 
         return view('front.page', compact('page'));
+    }
+
+    private function servicePageData(Service $service): array
+    {
+        $states = Schema::hasTable('states') && State::query()->exists()
+            ? State::orderBy('name')->pluck('name')->all()
+            : config('indian_states');
+
+        $processSteps = collect($service->processSteps())->map(function (array $step) {
+            $icon = $step['icon'] ?? '';
+            if ($icon && ! str_contains($icon, '<')) {
+                if (str_starts_with($icon, 'http://') || str_starts_with($icon, 'https://')) {
+                    $icon = str_replace('https://www.whizseed.com/frontend/', asset('frontend/'), $icon);
+                    $src = $icon;
+                } elseif (str_starts_with($icon, '/') && ! str_starts_with($icon, '//')) {
+                    $src = url($icon);
+                } else {
+                    $src = asset(ltrim($icon, '/'));
+                }
+                $icon = '<img src="'.e($src).'" alt="" width="40" height="40">';
+            }
+
+            return [
+                'icon' => $icon,
+                'text' => $step['text'] ?? '',
+            ];
+        })->all();
+
+        $otherServices = Service::query()
+            ->active()
+            ->where('service_type', 1)
+            ->where('id', '!=', $service->id)
+            ->when($service->category_id, fn ($q) => $q->where('category_id', $service->category_id))
+            ->orderBy('name')
+            ->limit(12)
+            ->get(['id', 'name', 'slug']);
+
+        if ($otherServices->count() < 6) {
+            $otherServices = Service::query()
+                ->active()
+                ->where('service_type', 1)
+                ->where('id', '!=', $service->id)
+                ->orderBy('name')
+                ->limit(12)
+                ->get(['id', 'name', 'slug']);
+        }
+
+        $overviewHtml = rewrite_html_root_paths(
+            $service->long_description
+            ?: $service->too_long_description
+            ?: $service->short_description
+            ?: '<p>'.e($service->heroDescription()).'</p>'
+        );
+
+        $extraHtml = rewrite_html_root_paths(
+            $service->too_long_description && $service->long_description
+                ? $service->too_long_description
+                : ($service->get_started ?: $service->advisory_services)
+        );
+
+        return [
+            'service' => $service,
+            'page' => (object) [
+                'document_title' => ($service->meta_title ?: $service->name).' | Whizseed',
+                'meta_description_text' => strip_tags($service->meta_description ?: $service->heroDescription()),
+                'og_image' => asset('Image/logo.png'),
+            ],
+            'activeNav' => 'services',
+            'states' => $states,
+            'processSteps' => $processSteps,
+            'heroFeatures' => config('service_page.hero_features', []),
+            'tabs' => config('service_page.tabs', []),
+            'overviewHtml' => $overviewHtml,
+            'extraHtml' => $extraHtml,
+            'categories' => [],
+            'checklist' => [],
+            'downloadSteps' => [],
+            'faqs' => [
+                [
+                    'q' => 'What is '.$service->name.'?',
+                    'a' => $service->heroDescription(),
+                ],
+                [
+                    'q' => 'How can Whizseed help with '.$service->name.'?',
+                    'a' => 'Whizseed handles documentation, expert consultation, and end-to-end filing support so you can complete '.$service->name.' without hassle.',
+                ],
+                [
+                    'q' => 'How long does '.$service->name.' take?',
+                    'a' => 'Timelines vary by case and government processing. Our team prepares everything correctly to minimize delays.',
+                ],
+            ],
+            'reviews' => [
+                [
+                    'image' => 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=1000&fit=crop&auto=format',
+                    'avatar' => 'https://i.pravatar.cc/80?img=12',
+                    'text' => 'Whizseed made '.$service->name.' simple and fast. Clear guidance throughout.',
+                    'name' => 'Rahul Mehta',
+                ],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&auto=format',
+                    'avatar' => 'https://i.pravatar.cc/80?img=32',
+                    'text' => 'Professional support and excellent communication from start to finish.',
+                    'name' => 'Priya Sharma',
+                ],
+                [
+                    'image' => 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=1000&fit=crop&auto=format',
+                    'avatar' => 'https://i.pravatar.cc/80?img=15',
+                    'text' => 'Highly recommend Whizseed for business registrations and compliance.',
+                    'name' => 'Aman Verma',
+                ],
+            ],
+            'otherServices' => $otherServices,
+            'callerName' => $service->caller_name ?: 'Khushi',
+            'callerDescription' => $service->caller_description ?: $service->free_consultation_desc,
+        ];
     }
 }

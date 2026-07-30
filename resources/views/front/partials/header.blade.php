@@ -27,7 +27,7 @@
               @foreach($headerMenu as $item)
                 <li class="nav__item {{ $item->hasDropdown() ? 'nav__item--mega' : '' }}">
                   <a
-                    href="{{ $item->url ?: '#' }}"
+                    href="{{ $item->href() }}"
                     class="nav__link {{ $activeNav === \Illuminate\Support\Str::slug($item->title) ? 'nav__link--active' : '' }}"
                     @if($item->hasDropdown()) aria-haspopup="true" aria-expanded="false" @endif
                   >
@@ -48,7 +48,7 @@
                               @foreach($group->activeChildren as $link)
                                 <li>
                                   <a
-                                    href="{{ $link->url ?: '#' }}"
+                                    href="{{ $link->href() }}"
                                     class="mega-menu__link"
                                     @if($link->open_in_new_tab) target="_blank" rel="noopener" @endif
                                   >{{ $link->title }}</a>
@@ -68,7 +68,7 @@
             <ul class="nav__list nav__list--secondary-mobile">
               @foreach($secondaryMenu as $link)
                 <li class="nav__item nav__item--secondary-only">
-                  <a href="{{ $link->url ?: '#' }}" class="nav__link {{ $activeNav === \Illuminate\Support\Str::slug($link->title) ? 'nav__link--active' : '' }}">{{ $link->title }}</a>
+                  <a href="{{ $link->href() }}" class="nav__link {{ $activeNav === \Illuminate\Support\Str::slug($link->title) ? 'nav__link--active' : '' }}">{{ $link->title }}</a>
                 </li>
               @endforeach
             </ul>
@@ -102,7 +102,7 @@
                 <ul class="header__extra-links">
                   @foreach($globalMenu->activeChildren as $group)
                     @foreach($group->activeChildren as $link)
-                      <li><a href="{{ $link->url ?: '#' }}">{{ $link->title }}</a></li>
+                      <li><a href="{{ $link->href() }}">{{ $link->title }}</a></li>
                     @endforeach
                   @endforeach
                 </ul>
@@ -112,7 +112,7 @@
           @if($secondaryMenu->isNotEmpty())
             <ul class="header__extra-links header__extra-links--inline">
               @foreach($secondaryMenu as $link)
-                <li><a href="{{ $link->url ?: '#' }}" class="{{ $activeNav === \Illuminate\Support\Str::slug($link->title) ? 'is-active' : '' }}">{{ $link->title }}</a></li>
+                <li><a href="{{ $link->href() }}" class="{{ $activeNav === \Illuminate\Support\Str::slug($link->title) ? 'is-active' : '' }}">{{ $link->title }}</a></li>
               @endforeach
             </ul>
           @endif

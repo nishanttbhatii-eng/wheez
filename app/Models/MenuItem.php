@@ -78,4 +78,9 @@ class MenuItem extends Model
     {
         return in_array($this->type, ['menu', 'group'], true) && $this->activeChildren->isNotEmpty();
     }
+
+    public function href(): string
+    {
+        return public_url($this->url);
+    }
 }
