@@ -25,12 +25,12 @@
             {{ $heroDescription }}
           </p>
           <div class="hero__cta">
-            <a href="{{ route('services') }}" class="btn btn--accent">
-              Get Started Now
+            <a href="#consult" class="btn btn--accent js-open-consult">
+              {{ __('ui.get_started') }}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </a>
-            <a href="https://wa.me/919625432342" class="btn btn--outline" target="_blank" rel="noopener">
-              Talk to Expert
+            <a href="https://wa.me/919625432342?text={{ urlencode(__('ui.wa_prefill')) }}" class="btn btn--outline" target="_blank" rel="noopener">
+              {{ __('ui.talk_to_expert') }}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
             </a>
           </div>
@@ -56,37 +56,66 @@
 
         <div class="hero__visual">
           <div class="hero__glow"></div>
-          <div class="papers-stack" aria-hidden="true">
+          <div class="papers-stack js-papers-stack" aria-hidden="true">
 
-            <div class="paper paper--back-3">
-              <span class="paper__ghost-label">CERTIFICATE</span>
-              <div class="paper__back-divider"></div>
-              <div class="paper__back-line"></div>
-              <div class="paper__back-line paper__back-line--w60"></div>
-              <div class="paper__back-line paper__back-line--w40"></div>
+            <div class="paper paper--cert" data-pos="3">
+              <div class="paper__top-row">
+                <div class="paper__badge">CERT</div>
+                <div class="paper__approved">
+                  <span class="paper__approved-text">ISSUED</span>
+                  <span class="paper__approved-year">2024</span>
+                </div>
+              </div>
+              <div class="paper__center">
+                <span class="paper__title">ISO</span>
+                <span class="paper__subtitle">CERTIFICATE</span>
+              </div>
+              <div class="paper__divider"></div>
+              <div class="paper__meta">
+                <span>Status: <strong class="paper__status-active">Active</strong></span>
+                <span>Processing: <strong>10 Days</strong></span>
+              </div>
             </div>
 
-            <div class="paper paper--back-2">
-              <span class="paper__ghost-label">RECEIPT NO</span>
-              <div class="paper__back-divider"></div>
-              <div class="paper__back-line"></div>
-              <div class="paper__back-line paper__back-line--w55"></div>
-              <div class="paper__back-divider"></div>
-              <div class="paper__back-line paper__back-line--w70"></div>
-              <div class="paper__back-line paper__back-line--w45"></div>
+            <div class="paper paper--cert" data-pos="2">
+              <div class="paper__top-row">
+                <div class="paper__badge">RCP</div>
+                <div class="paper__approved">
+                  <span class="paper__approved-text">PAID</span>
+                  <span class="paper__approved-year">2024</span>
+                </div>
+              </div>
+              <div class="paper__center">
+                <span class="paper__title">RECEIPT</span>
+                <span class="paper__subtitle">NO. 4821</span>
+              </div>
+              <div class="paper__divider"></div>
+              <div class="paper__meta">
+                <span>Status: <strong class="paper__status-active">Active</strong></span>
+                <span>Processing: <strong>2 Days</strong></span>
+              </div>
             </div>
 
-            <div class="paper paper--back-1">
-              <span class="paper__ghost-label">GST REG</span>
-              <div class="paper__back-divider"></div>
-              <div class="paper__back-line"></div>
-              <div class="paper__back-line paper__back-line--w60"></div>
-              <div class="paper__back-divider"></div>
-              <div class="paper__back-line paper__back-line--w40"></div>
-              <div class="paper__back-line paper__back-line--w75"></div>
+            <div class="paper paper--cert" data-pos="1">
+              <div class="paper__top-row">
+                <div class="paper__badge">GST</div>
+                <div class="paper__approved">
+                  <span class="paper__approved-text">APPROVED</span>
+                  <span class="paper__approved-year">2024</span>
+                </div>
+              </div>
+              <div class="paper__center">
+                <span class="paper__title">GST</span>
+                <span class="paper__subtitle">REGISTRATION</span>
+              </div>
+              <div class="paper__divider"></div>
+              <div class="paper__meta">
+                <span>Status: <strong class="paper__status-active">Active</strong></span>
+                <span>Processing: <strong>7 Days</strong></span>
+              </div>
             </div>
 
-            <div class="paper paper--front">
+            <div class="paper paper--cert" data-pos="0">
               <div class="paper__top-row">
                 <div class="paper__badge">INC</div>
                 <div class="paper__approved">
@@ -111,16 +140,7 @@
       </div>
     </section>
 
-    <section class="trusted-marquee" aria-label="Trusted by brands">
-      <div class="trusted-marquee__track">
-        <div class="trusted-marquee__group">
-          <img src="{{ asset('Image/cmplogo.png') }}" alt="BlueStone, Fastrack, Croma, iBELL, LG, Exide, Corporal" class="trusted-marquee__logos" width="1398" height="129" loading="lazy">
-        </div>
-        <div class="trusted-marquee__group" aria-hidden="true">
-          <img src="{{ asset('Image/cmplogo.png') }}" alt="" class="trusted-marquee__logos" width="1398" height="129" loading="lazy">
-        </div>
-      </div>
-    </section>
+    @include('front.partials.trusted-marquee')
 
     <section class="why-choose">
       <div class="why-choose__glow"></div>
@@ -226,30 +246,13 @@
             </ul>
           </article>
 
-          <article class="features__card features__card--dark">
-            <div class="features__stat">
-              <span class="features__stat-label">BUSINESS EMPOWERED</span>
-              <span class="features__stat-value">70+</span>
-            </div>
-            <div class="features__stat">
-              <span class="features__stat-label">OF INDUSTRY EXPERIENCE</span>
-              <span class="features__stat-value">5+ Year</span>
-            </div>
-            <div class="features__stat">
-              <span class="features__stat-label">CLIENT SATISFACTION</span>
-              <span class="features__stat-value">98%</span>
-            </div>
-          </article>
+          @include('front.partials.stats-card')
         </div>
       </div>
     </section>
 
     <section class="services">
       <div class="container">
-        <div class="services__label">
-          <span class="services__label-text">- SERVICES</span>
-          <span class="services__label-line"></span>
-        </div>
         <h2 class="services__heading">
           We Provide Best Quality
           <span class="services__heading-row">
@@ -259,27 +262,130 @@
         </h2>
         <div class="services__grid">
           <div class="services__left">
-            <div class="services__image">
-              <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=500&fit=crop&auto=format" alt="Services">
+            <div class="services__image js-services-images" aria-hidden="true">
+              <img
+                class="is-active"
+                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="default"
+                width="900"
+                height="720"
+              >
+              <img
+                src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="company"
+                width="900"
+                height="720"
+              >
+              <img
+                src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="gst"
+                width="900"
+                height="720"
+              >
+              <img
+                src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="trademark"
+                width="900"
+                height="720"
+              >
+              <img
+                src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="fssai"
+                width="900"
+                height="720"
+              >
+              <img
+                src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="iso"
+                width="900"
+                height="720"
+              >
+              <img
+                src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="compliance"
+                width="900"
+                height="720"
+              >
+              <img
+                src="https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="iec"
+                width="900"
+                height="720"
+              >
+              <img
+                src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=900&h=720&fit=crop&auto=format"
+                alt=""
+                data-key="ngo"
+                width="900"
+                height="720"
+              >
             </div>
           </div>
           <div class="services__right">
             <p class="services__desc">
               From your first incorporation to your hundredth filing, Whizseed handles the paperwork, deadlines, and regulatory complexity — so you can stay focused on building.
             </p>
-            <ul class="services__icon-list">
-              <li><span class="services__icon-check">✓</span> Company Registration</li>
-              <li><span class="services__icon-check">✓</span> GST &amp; Tax Filing</li>
-              <li><span class="services__icon-check">✓</span> Trademark &amp; IP</li>
-              <li><span class="services__icon-check">✓</span> FSSAI License</li>
-              <li><span class="services__icon-check">✓</span> ISO Certification</li>
-              <li><span class="services__icon-check">✓</span> Annual Compliance</li>
-              <li><span class="services__icon-check">✓</span> Import Export Code</li>
-              <li><span class="services__icon-check">✓</span> NGO Registration</li>
+            <ul class="services__list js-services-list">
+              <li>
+                <button type="button" class="services__item" data-image="company">
+                  <span class="services__item-icon" aria-hidden="true">+</span>
+                  <span class="services__item-text">Company Registration</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="services__item" data-image="gst">
+                  <span class="services__item-icon" aria-hidden="true">+</span>
+                  <span class="services__item-text">GST &amp; Tax Filing</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="services__item" data-image="trademark">
+                  <span class="services__item-icon" aria-hidden="true">+</span>
+                  <span class="services__item-text">Trademark &amp; IP</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="services__item" data-image="fssai">
+                  <span class="services__item-icon" aria-hidden="true">+</span>
+                  <span class="services__item-text">FSSAI License</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="services__item" data-image="iso">
+                  <span class="services__item-icon" aria-hidden="true">+</span>
+                  <span class="services__item-text">ISO Certification</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="services__item" data-image="ngo">
+                  <span class="services__item-icon" aria-hidden="true">+</span>
+                  <span class="services__item-text">NGO Registration</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="services__item" data-image="iec">
+                  <span class="services__item-icon" aria-hidden="true">+</span>
+                  <span class="services__item-text">Import Export Code</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="services__item" data-image="compliance">
+                  <span class="services__item-icon" aria-hidden="true">+</span>
+                  <span class="services__item-text">Annual Compliance</span>
+                </button>
+              </li>
             </ul>
-            <a href="{{ route('services') }}" class="btn btn--accent services__btn">
-              Get Started Now
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <a href="#consult" class="btn btn--accent services__btn js-open-consult">
+              {{ __('ui.get_started') }}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
             </a>
           </div>
         </div>
@@ -497,8 +603,8 @@
                 <img class="global__country-flag" src="https://flagcdn.com/w40/nz.png" alt="New Zealand flag">
               </div>
             </div>
-            <a href="#" class="btn btn--accent global__btn">
-              Get Started Now
+            <a href="#consult" class="btn btn--accent global__btn js-open-consult">
+              {{ __('ui.get_started') }}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
@@ -506,235 +612,9 @@
       </div>
     </section>
 
-    <section class="testimonials">
-      <div class="testimonials__bg-text" aria-hidden="true">WHIZSEED</div>
-      <div class="container">
-        <div class="testimonials__label">
-          <span class="testimonials__label-dash">—</span>
-          <span class="testimonials__label-text">CLIENT REVIEWS</span>
-          <span class="testimonials__label-line"></span>
-        </div>
-        <h2 class="testimonials__heading">
-          <span class="testimonials__heading-row">
-            Here's What Our
-          </span>
-          <span class="testimonials__heading-row">
-            Amazing Clients
-            <span class="testimonials__heading-star">★</span>
-          </span>
-          <span class="testimonials__heading-row">
-            Are Saying
-          </span>
-        </h2>
-      </div>
-      <div class="testimonials__wrapper">
-        <div class="testimonials__track" id="testimonialsTrack">
+    @include('front.partials.client-reviews')
 
-          <div class="testimonial-card">
-            <div class="testimonial-card__bg">
-              <div class="testimonial-card__overlay"></div>
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=520&fit=crop&auto=format" alt="Client" loading="lazy">
-            </div>
-            <div class="testimonial-card__content">
-              <p class="testimonial-card__text">"WhizSeed made company registration effortless. Their team guided us through every step with professionalism."</p>
-              <div class="testimonial-card__divider"></div>
-              <div class="testimonial-card__footer">
-                <div class="testimonial-card__footer-left">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&auto=format" alt="" class="testimonial-card__avatar" loading="lazy">
-                  <div class="testimonial-card__info">
-                    <span class="testimonial-card__name">Rahul Sharma</span>
-                    <span class="testimonial-card__role">Founder, TechVentures</span>
-                  </div>
-                </div>
-                <div class="testimonial-card__footer-right">
-                  <span class="testimonial-card__badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
-                    Google
-                  </span>
-                  <span class="testimonial-card__rating">★★★★★</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="testimonial-card__bg">
-              <div class="testimonial-card__overlay"></div>
-              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=520&fit=crop&auto=format" alt="Client" loading="lazy">
-            </div>
-            <div class="testimonial-card__content">
-              <p class="testimonial-card__text">"The GST filing process used to be a nightmare. WhizSeed automated everything and saved us hours of work."</p>
-              <div class="testimonial-card__divider"></div>
-              <div class="testimonial-card__footer">
-                <div class="testimonial-card__footer-left">
-                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=48&h=48&fit=crop&auto=format" alt="" class="testimonial-card__avatar" loading="lazy">
-                  <div class="testimonial-card__info">
-                    <span class="testimonial-card__name">Priya Patel</span>
-                    <span class="testimonial-card__role">CEO, GreenEarth Co.</span>
-                  </div>
-                </div>
-                <div class="testimonial-card__footer-right">
-                  <span class="testimonial-card__badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
-                    Google
-                  </span>
-                  <span class="testimonial-card__rating">★★★★★</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="testimonial-card__bg">
-              <div class="testimonial-card__overlay"></div>
-              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=520&fit=crop&auto=format" alt="Client" loading="lazy">
-            </div>
-            <div class="testimonial-card__content">
-              <p class="testimonial-card__text">"Outstanding support for trademark registration. They handled everything from search to filing seamlessly."</p>
-              <div class="testimonial-card__divider"></div>
-              <div class="testimonial-card__footer">
-                <div class="testimonial-card__footer-left">
-                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&auto=format" alt="" class="testimonial-card__avatar" loading="lazy">
-                  <div class="testimonial-card__info">
-                    <span class="testimonial-card__name">Arjun Mehta</span>
-                    <span class="testimonial-card__role">Director, InnovateLabs</span>
-                  </div>
-                </div>
-                <div class="testimonial-card__footer-right">
-                  <span class="testimonial-card__badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
-                    Google
-                  </span>
-                  <span class="testimonial-card__rating">★★★★★</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="testimonial-card__bg">
-              <div class="testimonial-card__overlay"></div>
-              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=520&fit=crop&auto=format" alt="Client" loading="lazy">
-            </div>
-            <div class="testimonial-card__content">
-              <p class="testimonial-card__text">"WhizSeed's compliance monitoring saved us from a major regulatory pitfall. Highly recommend their annual retainer."</p>
-              <div class="testimonial-card__divider"></div>
-              <div class="testimonial-card__footer">
-                <div class="testimonial-card__footer-left">
-                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=48&h=48&fit=crop&auto=format" alt="" class="testimonial-card__avatar" loading="lazy">
-                  <div class="testimonial-card__info">
-                    <span class="testimonial-card__name">Ananya Reddy</span>
-                    <span class="testimonial-card__role">COO, MedTech Solutions</span>
-                  </div>
-                </div>
-                <div class="testimonial-card__footer-right">
-                  <span class="testimonial-card__badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
-                    Google
-                  </span>
-                  <span class="testimonial-card__rating">★★★★★</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="testimonial-card__bg">
-              <div class="testimonial-card__overlay"></div>
-              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=520&fit=crop&auto=format" alt="Client" loading="lazy">
-            </div>
-            <div class="testimonial-card__content">
-              <p class="testimonial-card__text">"Setting up our subsidiary in India was complex. WhizSeed made it simple with expert legal and tax guidance."</p>
-              <div class="testimonial-card__divider"></div>
-              <div class="testimonial-card__footer">
-                <div class="testimonial-card__footer-left">
-                  <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&auto=format" alt="" class="testimonial-card__avatar" loading="lazy">
-                  <div class="testimonial-card__info">
-                    <span class="testimonial-card__name">Vikram Joshi</span>
-                    <span class="testimonial-card__role">VP, GlobalOps Inc.</span>
-                  </div>
-                </div>
-                <div class="testimonial-card__footer-right">
-                  <span class="testimonial-card__badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
-                    Google
-                  </span>
-                  <span class="testimonial-card__rating">★★★★★</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="testimonial-card__bg">
-              <div class="testimonial-card__overlay"></div>
-              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=520&fit=crop&auto=format" alt="Client" loading="lazy">
-            </div>
-            <div class="testimonial-card__content">
-              <p class="testimonial-card__text">"From incorporation to trademark, WhizSeed handled our entire IP portfolio. Their dashboard is incredibly intuitive."</p>
-              <div class="testimonial-card__divider"></div>
-              <div class="testimonial-card__footer">
-                <div class="testimonial-card__footer-left">
-                  <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=48&h=48&fit=crop&auto=format" alt="" class="testimonial-card__avatar" loading="lazy">
-                  <div class="testimonial-card__info">
-                    <span class="testimonial-card__name">Neha Kapoor</span>
-                    <span class="testimonial-card__role">Founder, StyleCraft</span>
-                  </div>
-                </div>
-                <div class="testimonial-card__footer-right">
-                  <span class="testimonial-card__badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#34a853"><path d="M21.35 11.1h-9.17v2.73h5.51a6.19 6.19 0 01-2.68 4.05v3.37h4.34a10.91 10.91 0 003.97-8.5c0-.57-.05-1.13-.14-1.66z"/><path d="M12.18 21.3a10.8 10.8 0 007.4-2.72l-4.34-3.37a6.84 6.84 0 01-10.22-3.59H4.6v3.48a10.8 10.8 0 007.58 6.2z"/><path d="M5.02 13.62a6.72 6.72 0 010-4.28V5.86H4.6a10.8 10.8 0 000 9.48l.42-1.72z"/><path d="M12.18 4.78a6.1 6.1 0 014.3 1.68l3.23-3.23A10.8 10.8 0 0012.18 1 10.8 10.8 0 004.6 5.86l.42 3.48a6.72 6.72 0 017.16-4.56z"/></svg>
-                    Google
-                  </span>
-                  <span class="testimonial-card__rating">★★★★★</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="testimonials__controls">
-          <button class="testimonials__arrow testimonials__arrow--prev" aria-label="Previous">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <div class="testimonials__dots"></div>
-          <button class="testimonials__arrow testimonials__arrow--next" aria-label="Next">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Newsletter Section -->
-    <section class="newsletter">
-      <div class="newsletter__bg-text" aria-hidden="true">WHIZSEED</div>
-      <div class="newsletter__divider"></div>
-      <div class="container">
-        <div class="newsletter__inner">
-          <div class="newsletter__left">
-            <div class="newsletter__icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <path d="M22 7l-10 7L2 7"/>
-              </svg>
-            </div>
-            <h2 class="newsletter__heading">Subscribe to our Newsletter</h2>
-            <p class="newsletter__desc">Stay updated with all the latest legal updates. Just enter your email address and subscribe for free!</p>
-          </div>
-          <div class="newsletter__right">
-            <form class="newsletter__form">
-              <input type="email" class="newsletter__input" placeholder="Enter your email address" required>
-              <button type="submit" class="newsletter__btn">
-                Subscribe
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
+    @include('front.partials.newsletter')
 
     @include('front.partials.footer')
   </main>

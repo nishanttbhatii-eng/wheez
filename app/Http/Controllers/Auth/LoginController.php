@@ -47,7 +47,18 @@ class LoginController extends Controller
         Cache::put('login_otp_'.$user->email, $otp, now()->addMinutes(10));
 
         if (! $user->isAdmin()) {
-            Mail::to($user->email)->send(new LoginOtpMail($user, $otp));
+            try {
+                Mail::to($user->email)->send(new LoginOtpMail($user, $otp));
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error('Failed to send login OTP mail', [
+                    'email' => $user->email,
+                    'error' => $e->getMessage(),
+                ]);
+
+                return back()
+                    ->withErrors(['email' => 'We could not send the OTP email right now. Please try again shortly.'])
+                    ->onlyInput('email');
+            }
         }
 
         $request->session()->flash(

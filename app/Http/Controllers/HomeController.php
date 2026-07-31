@@ -6,6 +6,7 @@ use App\Models\Enquiry;
 use App\Models\Page;
 use App\Models\Service;
 use App\Models\State;
+use App\Services\EnquiryNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -23,12 +24,43 @@ class HomeController extends Controller
             'heroDescription' => $page?->content ?: "At Whizseed, we're dedicated to fueling your entrepreneurial fire. Our services and expert guidance empower startups and entrepreneurs across India to build, grow, and prosper.",
         ]);
     }
-     public function homeNew(): View
+    public function homeNew(): View
     {
         return view('front.home-new', [
             'activeNav' => 'home',
         ]);
     }
+
+    public function setLocale(string $locale): RedirectResponse
+    {
+        if (! in_array($locale, ['en', 'hi'], true)) {
+            $locale = 'en';
+        }
+
+        session(['locale' => $locale]);
+
+        $response = redirect()->back();
+
+        // Reset Google Translate cookie first
+        $response->withCookie(cookie()->forget('googtrans'));
+
+        if ($locale === 'hi') {
+            $response->withCookie(cookie(
+                'googtrans',
+                '/en/hi',
+                60 * 24 * 365,
+                '/',
+                null,
+                false,
+                false,
+                false,
+                'lax'
+            ));
+        }
+
+        return $response;
+    }
+
     public function services(): View
     {
         $page = Page::published()->where('slug', 'services')->first();
@@ -68,8 +100,10 @@ class HomeController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:180'],
-            'mobile' => ['required', 'digits:10'],
-            'state' => ['required', 'string', 'max:80'],
+            'country' => ['nullable', 'string', 'max:10'],
+            'country_code' => ['nullable', 'string', 'max:8'],
+            'mobile' => ['required', 'regex:/^[0-9]{6,15}$/'],
+            'state' => ['required', 'string', 'max:120'],
         ]);
 
         $stateId = null;
@@ -77,20 +111,90 @@ class HomeController extends Controller
             $stateId = State::where('name', $validated['state'])->value('id');
         }
 
-        Enquiry::create([
+        $dial = preg_replace('/\D+/', '', (string) ($validated['country_code'] ?? ''));
+        $mobile = $validated['mobile'];
+        $fullMobile = $dial !== '' ? '+'.$dial.' '.$mobile : $mobile;
+        $countryIso = $validated['country'] ?? 'IN';
+
+        $enquiry = Enquiry::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'mobile' => $validated['mobile'],
+            'mobile' => $fullMobile,
             'state_id' => $stateId,
             'service_slug' => $service->slug,
             'subject' => $service->name,
-            'description' => 'Consultation request from service page.',
+            'description' => 'Consultation request from service page. Country: '.$countryIso.'. State/Region: '.$validated['state'].'.',
             'status' => Enquiry::STATUS_NEW,
         ]);
 
-        return redirect()
-            ->route('services.show', $service->slug)
-            ->with('service_enquiry_success', 'Thanks! Our expert will contact you shortly.');
+        app(EnquiryNotifier::class)->notify($enquiry);
+
+        return redirect()->route('thanks');
+    }
+
+    public function generalEnquire(Request $request): RedirectResponse
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:120'],
+            'email' => ['required', 'email', 'max:180'],
+            'country' => ['nullable', 'string', 'max:10'],
+            'country_code' => ['nullable', 'string', 'max:8'],
+            'mobile' => ['required', 'regex:/^[0-9]{6,15}$/'],
+            'state' => ['required', 'string', 'max:120'],
+            'service_slug' => ['nullable', 'string', 'max:180'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('open_consult_modal', true);
+        }
+
+        $validated = $validator->validated();
+
+        $stateId = null;
+        if (Schema::hasTable('states')) {
+            $stateId = State::where('name', $validated['state'])->value('id');
+        }
+
+        $dial = preg_replace('/\D+/', '', (string) ($validated['country_code'] ?? ''));
+        $mobile = $validated['mobile'];
+        $fullMobile = $dial !== '' ? '+'.$dial.' '.$mobile : $mobile;
+        $countryIso = $validated['country'] ?? 'IN';
+        $serviceSlug = $validated['service_slug'] ?? null;
+
+        $service = null;
+        if ($serviceSlug) {
+            $service = Service::query()
+                ->active()
+                ->where('slug', $serviceSlug)
+                ->where('service_type', 1)
+                ->first();
+        }
+
+        $enquiry = Enquiry::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'mobile' => $fullMobile,
+            'state_id' => $stateId,
+            'service_slug' => $service?->slug,
+            'subject' => $service?->name ?: 'General consultation',
+            'description' => 'Consultation request from Get Started popup. Country: '.$countryIso.'. State/Region: '.$validated['state'].'.',
+            'status' => Enquiry::STATUS_NEW,
+        ]);
+
+        app(EnquiryNotifier::class)->notify($enquiry);
+
+        return redirect()->route('thanks');
+    }
+
+    public function thanks(): View
+    {
+        return view('front.thanks', [
+            'activeNav' => null,
+        ]);
     }
 
     public function about(): View
@@ -111,16 +215,37 @@ class HomeController extends Controller
             ? State::orderBy('name')->pluck('name')->all()
             : config('indian_states');
 
+        $services = collect(config('services_catalog.categories', []))
+            ->flatMap(fn ($category) => $category['services'] ?? [])
+            ->unique()
+            ->values()
+            ->all();
+
+        if ($services === []) {
+            $services = [
+                'Company Registration',
+                'GST & Tax Filing',
+                'Trademark & IP',
+                'FSSAI License',
+                'ISO Certification',
+                'Annual Compliance',
+                'Import Export Code',
+                'NGO Registration',
+            ];
+        }
+
         return view('front.contact', [
             'page' => $page,
             'activeNav' => 'contact-us',
             'states' => $states,
+            'services' => $services,
         ]);
     }
 
     public function contactSubmit(Request $request): RedirectResponse
     {
         $validated = $request->validate([
+            'service' => ['required', 'string', 'max:180'],
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:180'],
             'mobile' => ['required', 'digits:10'],
@@ -133,21 +258,26 @@ class HomeController extends Controller
             $stateId = State::where('name', $validated['state'])->value('id');
         }
 
-        Enquiry::create([
+        $serviceName = $validated['service'] ?? null;
+        $description = trim(implode("\n", array_filter([
+            $serviceName ? 'Service: '.$serviceName : null,
+            'State: '.$validated['state'],
+            $validated['message'] ?? null,
+        ])));
+
+        $enquiry = Enquiry::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'mobile' => $validated['mobile'],
             'state_id' => $stateId,
-            'subject' => 'Contact Us',
-            'description' => $validated['message'] ?? null,
+            'subject' => $serviceName ? 'Contact Us — '.$serviceName : 'Contact Us',
+            'description' => $description !== '' ? $description : null,
             'status' => Enquiry::STATUS_NEW,
         ]);
 
-        $redirectRoute = $request->input('redirect_to') === 'home.new' ? 'home.new' : 'contact';
+        app(EnquiryNotifier::class)->notify($enquiry);
 
-        return redirect()
-            ->route($redirectRoute)
-            ->with('contact_success', 'Thanks! Your request has been received. Our team will get back to you shortly.');
+        return redirect()->route('thanks');
     }
 
     public function privacy(): View

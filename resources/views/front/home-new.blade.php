@@ -3,7 +3,7 @@
 @push('styles')
   <link rel="stylesheet" href="{{ asset('vendor/slick/slick.css') }}">
   <link rel="stylesheet" href="{{ asset('vendor/slick/slick-theme.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/home-new.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/home-new.css') }}?v={{ filemtime(public_path('css/home-new.css')) }}">
 @endpush
 
 @section('content')
@@ -91,48 +91,12 @@
         </div>
 
         <aside class="hn-hero__aside">
-          <form class="hn-consult hn-consult--hero" action="{{ route('services.enquire', $service->slug) }}" method="post" novalidate>
-            @csrf
-            <h2 class="hn-consult__title">Consultation by Expert</h2>
-
-            @if(session('service_enquiry_success'))
-              <div class="hn-consult__success" role="status">{{ session('service_enquiry_success') }}</div>
-            @endif
-
-            <div class="hn-consult__field">
-              <input type="text" name="name" value="{{ old('name') }}" placeholder="Your Name" required>
-              @error('name') <span class="hn-consult__error">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="hn-consult__field">
-              <input type="email" name="email" value="{{ old('email') }}" placeholder="Email Address" required>
-              @error('email') <span class="hn-consult__error">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="hn-consult__field">
-              <div class="hn-consult__phone">
-                <span class="hn-consult__phone-code" aria-hidden="true">🇮🇳 +91</span>
-                <input type="tel" name="mobile" value="{{ old('mobile') }}" placeholder="Mobile Number" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" required>
-              </div>
-              @error('mobile') <span class="hn-consult__error">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="hn-consult__field">
-              <select name="state" required>
-                <option value="">Select State</option>
-                @foreach(config('indian_states') as $state)
-                  <option value="{{ $state }}" @selected(old('state') === $state)>{{ $state }}</option>
-                @endforeach
-              </select>
-              @error('state') <span class="hn-consult__error">{{ $message }}</span> @enderror
-            </div>
-
-            <button type="submit" class="btn btn--accent hn-consult__submit">
-              Get Started Now
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-            </button>
-            <p class="hn-consult__privacy">We'll never share your details with third parties. we won't spam you</p>
-          </form>
+          @include('front.partials.hn-consultation-form', [
+            'service' => $service,
+            'states' => $states ?? config('indian_states'),
+            'formSuffix' => 'hero',
+            'formModifier' => 'hn-consult--hero',
+          ])
         </aside>
       </div>
     </section>
@@ -296,11 +260,11 @@
               </ul>
             </div>
           </article>
-          @else
-            <div id="documents"></div>
-          @endif
 
           {{-- Documents required --}}
+          <article class="hn-card hn-docs" id="documents">
+            <h2 class="hn-card__title">Documents Required in Order to Register an MSME in India</h2>
+            <div class="hn-card__body">
               <p>The following papers are needed in India to register an MSME, hence before starting the registration procedure make sure you are having the following papers in your hand:</p>
             </div>
             <div class="hn-docs__grid">
@@ -451,7 +415,6 @@
               </li>
             </ul>
           </article>
-          @endif
 
           @if($service->price > 0)
           <article class="hn-card" id="pricing">
@@ -539,20 +502,9 @@
               loading="lazy"
             >
             <div class="hn-why">
-              <div class="hn-why__stats">
-                <div class="hn-why__stat">
-                  <span class="hn-why__stat-label">BUSINESS EMPOWERED</span>
-                  <strong class="hn-why__stat-value">1800+</strong>
-                </div>
-                <div class="hn-why__stat">
-                  <span class="hn-why__stat-label">OF INDUSTRY EXPERIENCE</span>
-                  <strong class="hn-why__stat-value">3+ Year</strong>
-                </div>
-                <div class="hn-why__stat">
-                  <span class="hn-why__stat-label">CLIENT SATISFACTION</span>
-                  <strong class="hn-why__stat-value">98%</strong>
-                </div>
-              </div>
+              @include('front.partials.stats-card', [
+                'statsCardClass' => 'hn-why__stats',
+              ])
               <div class="hn-why__features">
                 <article class="hn-why__feature">
                   <span class="hn-why__feature-icon" aria-hidden="true">
@@ -812,48 +764,11 @@
         <aside class="hn-side">
           <div class="hn-side__sticky">
 
-            <form class="hn-consult" action="{{ route('services.enquire', $service->slug) }}" method="post" novalidate>
-              @csrf
-              <h2 class="hn-consult__title">Consultation by Expert</h2>
-
-              @if(session('service_enquiry_success'))
-                <div class="hn-consult__success" role="status">{{ session('service_enquiry_success') }}</div>
-              @endif
-
-              <div class="hn-consult__field">
-                <input type="text" name="name" value="{{ old('name') }}" placeholder="Your Name" required>
-                @error('name') <span class="hn-consult__error">{{ $message }}</span> @enderror
-              </div>
-
-              <div class="hn-consult__field">
-                <input type="email" name="email" value="{{ old('email') }}" placeholder="Email Address" required>
-                @error('email') <span class="hn-consult__error">{{ $message }}</span> @enderror
-              </div>
-
-              <div class="hn-consult__field">
-                <div class="hn-consult__phone">
-                  <span class="hn-consult__phone-code" aria-hidden="true">🇮🇳 +91</span>
-                  <input type="tel" name="mobile" value="{{ old('mobile') }}" placeholder="Mobile Number" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" required>
-                </div>
-                @error('mobile') <span class="hn-consult__error">{{ $message }}</span> @enderror
-              </div>
-
-              <div class="hn-consult__field">
-                <select name="state" required>
-                  <option value="">Select State</option>
-                  @foreach(config('indian_states') as $state)
-                    <option value="{{ $state }}" @selected(old('state') === $state)>{{ $state }}</option>
-                  @endforeach
-                </select>
-                @error('state') <span class="hn-consult__error">{{ $message }}</span> @enderror
-              </div>
-
-              <button type="submit" class="btn btn--accent hn-consult__submit">
-                Get Started Now
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-              </button>
-              <p class="hn-consult__privacy">We'll never share your details with third parties. we won't spam you</p>
-            </form>
+            @include('front.partials.hn-consultation-form', [
+              'service' => $service,
+              'states' => $states ?? config('indian_states'),
+              'formSuffix' => 'sidebar',
+            ])
 
             <div class="hn-agent">
               <div class="hn-agent__top">

@@ -28,7 +28,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(300px, 420px);
   /* gap: 40px; */
-  align-items: end;
+  align-items: start;
 }
 
 .hn-hero__content {
@@ -200,7 +200,8 @@
 
 .hn-hero__aside {
   position: relative;
-  padding-bottom: 0px;
+  padding-bottom: 0;
+  margin-top: 8px;
 }
 
 .hn-consult--hero {
@@ -336,10 +337,22 @@
   flex-direction: column;
   gap: 24px;
 }
-aside.hn-side{
-  position: sticky;
-  top: 100px;
+
+.hn-side {
+  align-self: stretch;
+  min-width: 0;
 }
+
+/* Sidebar */
+.hn-side__sticky {
+  position: sticky;
+  top: calc(var(--header-height, 80px) + 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 5;
+}
+
 /* Content cards */
 .hn-card {
   background: #fff;
@@ -552,12 +565,22 @@ aside.hn-side{
 .hn-why__stats {
   background: #0a0a0a;
   color: #fff;
-  border-radius: 14px;
+  border-radius: 20px;
   padding: 28px 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   gap: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.hn-why__stats.stats-card {
+  padding: 28px 22px;
+}
+
+.hn-why__stats .stats-card__value {
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
 }
 
 .hn-why__stat {
@@ -902,11 +925,13 @@ aside.hn-side{
 }
 
 .hn-reviews__square {
-  width: 14px;
-  height: 14px;
+  width: 22px;
+  height: 22px;
   background: var(--color-accent);
-  transform: rotate(12deg);
+  transform: rotate(45deg);
   display: inline-block;
+  animation: accentSquareSpin 3.5s linear infinite;
+  transform-origin: center center;
 }
 
 .hn-reviews__slider {
@@ -992,15 +1017,6 @@ aside.hn-side{
   font-weight: 700;
 }
 
-/* Sidebar */
-.hn-side__sticky {
-  position: sticky;
-  top: calc(var(--header-height) + 16px);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .hn-consult {
   background: #fff;
   border: 1px solid #e4e4e4;
@@ -1075,6 +1091,7 @@ aside.hn-side{
   border-radius: 10px;
   overflow: hidden;
   background: #f0f2f9;
+  min-width: 0;
 }
 
 .hn-consult__phone:focus-within {
@@ -1093,9 +1110,41 @@ aside.hn-side{
   background: #e8ebf5;
 }
 
+.hn-consult__phone-code--select {
+  padding: 0;
+  max-width: 132px;
+  flex: 0 0 auto;
+}
+
+.hn-consult__phone-code--select select {
+  width: 100%;
+  max-width: 132px;
+  border: none;
+  border-radius: 0;
+  background: #e8ebf5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding: 15px 26px 15px 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.hn-consult__phone-code--select select:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: #e8ebf5;
+}
+
 .hn-consult__phone input {
   border-radius: 0;
   background: transparent;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .hn-consult__phone input:focus {
@@ -1112,12 +1161,31 @@ aside.hn-side{
 
 .hn-consult__submit {
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   justify-content: center;
+  align-items: center;
+  gap: 8px;
   margin-top: 6px;
-  padding: 15px 24px;
+  padding: 14px 16px;
   border-radius: 999px;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  white-space: normal;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.hn-consult__submit-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.hn-consult__submit svg {
+  flex-shrink: 0;
 }
 
 .hn-consult__privacy {
@@ -1307,10 +1375,13 @@ aside.hn-side{
 
   .hn-side {
     order: -1;
+    align-self: auto;
+    height: auto;
   }
 
   .hn-side__sticky {
     position: static;
+    top: auto;
   }
 
   .hn-categories {
@@ -1502,5 +1573,138 @@ aside.hn-side{
   .hn-newsletter .newsletter__btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* Service page extra responsive */
+@media (max-width: 1100px) {
+  .hn-hero__aside {
+    max-width: 520px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .hn-hero__content {
+    padding-bottom: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hn-hero {
+    padding: calc(var(--header-height, 72px) + 20px) 0 28px;
+  }
+
+  .hn-hero__title {
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+  }
+
+  .hn-hero__desc {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  .hn-hero__steps {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .hn-consult {
+    padding: 20px 16px 16px;
+    border-radius: 16px;
+  }
+
+  .hn-consult__title {
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+
+  .hn-consult__phone-code--select {
+    max-width: 118px;
+  }
+
+  .hn-consult__phone-code--select select {
+    max-width: 118px;
+    padding: 14px 24px 14px 8px;
+    font-size: 0.78rem;
+  }
+
+  .hn-consult__submit {
+    padding: 13px 14px;
+    font-size: 0.9rem;
+  }
+
+  .hn-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding-bottom: 4px;
+  }
+
+  .hn-tabs__item {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .hn-body {
+    padding-top: 20px;
+  }
+
+  .hn-docs__grid {
+    gap: 16px;
+  }
+
+  .hn-side {
+    order: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hn-hero__grid {
+    gap: 18px;
+  }
+
+  .hn-hero__ratings {
+    gap: 8px;
+  }
+
+  .hn-hero__avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hn-hero__feature {
+    padding: 12px 10px;
+  }
+
+  .hn-consult__field {
+    margin-bottom: 14px;
+  }
+
+  .hn-consult__field input,
+  .hn-consult__field select {
+    padding: 13px 14px;
+    font-size: 0.9rem;
+  }
+
+  .hn-consult__phone-code--select {
+    max-width: 108px;
+  }
+
+  .hn-consult__phone-code--select select {
+    max-width: 108px;
+  }
+
+  .hn-why {
+    gap: 12px;
+  }
+
+  .hn-card {
+    padding: 18px 14px 14px;
+    border-radius: 14px;
+  }
+
+  .hn-other__tag {
+    font-size: 0.78rem;
   }
 }

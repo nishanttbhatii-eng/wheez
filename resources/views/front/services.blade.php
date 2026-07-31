@@ -116,8 +116,8 @@
           <h2 class="svc-cta__title">Ready to get started?</h2>
           <p class="svc-cta__text">Talk to our experts and find the right service for your business in minutes.</p>
         </div>
-        <a href="#" class="btn btn--accent svc-cta__btn">
-          Get Started Now
+        <a href="#consult" class="btn btn--accent svc-cta__btn js-open-consult">
+          {{ __('ui.get_started') }}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>

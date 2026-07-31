@@ -28,6 +28,11 @@ Route::get('/home-new', [HomeController::class, 'homeNew'])->name('home.new');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/services/{slug}', [HomeController::class, 'serviceShow'])->name('services.show');
 Route::post('/services/{slug}/enquire', [HomeController::class, 'serviceEnquire'])->name('services.enquire');
+Route::get('/locale/{locale}', [HomeController::class, 'setLocale'])
+    ->where('locale', 'en|hi')
+    ->name('locale.switch');
+Route::post('/enquire', [HomeController::class, 'generalEnquire'])->name('enquire');
+Route::get('/thanks', [HomeController::class, 'thanks'])->name('thanks');
 Route::get('/about-us', [HomeController::class, 'about'])->name('about');
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact-us', [HomeController::class, 'contactSubmit'])->name('contact.submit');
