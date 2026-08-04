@@ -408,91 +408,39 @@
         <div class="process__grid">
           <div class="process__card">
             <span class="process__number">01</span>
-            <div class="process__illustration">
-              <svg width="180" height="160" viewBox="0 0 180 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="50" y="80" width="80" height="50" rx="6" fill="currentColor" opacity="0.12"/>
-                <rect x="55" y="100" width="15" height="10" rx="2" fill="currentColor" opacity="0.15"/>
-                <rect x="110" y="100" width="15" height="10" rx="2" fill="currentColor" opacity="0.15"/>
-                <rect x="55" y="85" width="70" height="8" rx="2" fill="currentColor" opacity="0.1"/>
-                <circle cx="70" cy="55" r="22" fill="currentColor" opacity="0.1"/>
-                <circle cx="70" cy="55" r="14" fill="currentColor" opacity="0.06"/>
-                <rect x="55" y="68" width="30" height="14" rx="7" fill="currentColor" opacity="0.08"/>
-                <rect x="130" y="50" width="36" height="50" rx="4" fill="currentColor" opacity="0.08"/>
-                <rect x="134" y="54" width="4" height="4" rx="1" fill="currentColor" opacity="0.12"/>
-                <rect x="142" y="54" width="4" height="4" rx="1" fill="currentColor" opacity="0.12"/>
-                <rect x="150" y="54" width="4" height="4" rx="1" fill="currentColor" opacity="0.12"/>
-                <rect x="134" y="62" width="20" height="3" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="134" y="68" width="16" height="3" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="134" y="74" width="24" height="3" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="134" y="80" width="18" height="3" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="134" y="86" width="22" height="3" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="134" y="92" width="14" height="3" rx="1" fill="currentColor" opacity="0.1"/>
-              </svg>
-            </div>
+            
             <h3 class="process__title">Choose Your<br>Service</h3>
             <p class="process__desc">Browse our comprehensive list of services and select what your business needs — from registration to compliance.</p>
+            <div class="process__illustration">
+              <img src="{{ asset('Image/service-1.png') }}" alt="Choose Your Service">
+            </div>
           </div>
           <div class="process__card">
             <span class="process__number">02</span>
-            <div class="process__illustration">
-              <svg width="180" height="160" viewBox="0 0 180 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="30" y="50" width="60" height="70" rx="6" fill="currentColor" opacity="0.08"/>
-                <rect x="36" y="60" width="48" height="6" rx="2" fill="currentColor" opacity="0.12"/>
-                <rect x="36" y="72" width="40" height="4" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="36" y="82" width="44" height="4" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="36" y="92" width="36" height="4" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="36" y="102" width="42" height="4" rx="1" fill="currentColor" opacity="0.1"/>
-                <circle cx="60" cy="38" r="16" fill="currentColor" opacity="0.08"/>
-                <rect x="120" y="55" width="40" height="40" rx="6" fill="currentColor" opacity="0.09"/>
-                <rect x="126" y="62" width="28" height="4" rx="1" fill="currentColor" opacity="0.13"/>
-                <rect x="126" y="70" width="22" height="4" rx="1" fill="currentColor" opacity="0.11"/>
-                <rect x="126" y="78" width="26" height="4" rx="1" fill="currentColor" opacity="0.11"/>
-                <circle cx="140" cy="45" r="14" fill="currentColor" opacity="0.07"/>
-                <rect x="124" y="46" width="32" height="8" rx="4" fill="currentColor" opacity="0.1"/>
-                <rect x="130" y="32" width="20" height="12" rx="3" fill="currentColor" opacity="0.08"/>
-              </svg>
-            </div>
+            
             <h3 class="process__title">Share Your<br>Details</h3>
             <p class="process__desc">Fill in a simple form with your business information. Our experts will review and guide you through the requirements.</p>
+            <div class="process__illustration">
+              <img src="{{ asset('Image/service-2.png') }}" alt="Share Your Details">
+            </div>
           </div>
           <div class="process__card">
             <span class="process__number">03</span>
-            <div class="process__illustration">
-              <svg width="180" height="160" viewBox="0 0 180 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="55" cy="52" r="14" fill="currentColor" opacity="0.08"/>
-                <rect x="40" y="66" width="30" height="50" rx="8" fill="currentColor" opacity="0.08"/>
-                <circle cx="95" cy="52" r="14" fill="currentColor" opacity="0.09"/>
-                <rect x="80" y="66" width="30" height="50" rx="8" fill="currentColor" opacity="0.09"/>
-                <circle cx="135" cy="52" r="14" fill="currentColor" opacity="0.07"/>
-                <rect x="120" y="66" width="30" height="50" rx="8" fill="currentColor" opacity="0.07"/>
-                <rect x="50" y="122" width="80" height="8" rx="3" fill="currentColor" opacity="0.06"/>
-                <rect x="60" y="134" width="60" height="6" rx="3" fill="currentColor" opacity="0.05"/>
-                <rect x="38" y="118" width="104" height="2" fill="currentColor" opacity="0.04"/>
-              </svg>
-            </div>
+         
             <h3 class="process__title">We Handle<br>The Rest</h3>
             <p class="process__desc">Our team of professionals takes care of all documentation, filings, and government interactions on your behalf.</p>
+            <div class="process__illustration">
+              <img src="{{ asset('Image/service-3.png') }}" alt="We Handle The Rest">
+            </div>
           </div>
           <div class="process__card">
             <span class="process__number">04</span>
-            <div class="process__illustration">
-              <svg width="180" height="160" viewBox="0 0 180 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="55" y="40" width="70" height="50" rx="6" fill="currentColor" opacity="0.09"/>
-                <rect x="60" y="45" width="60" height="36" rx="3" fill="currentColor" opacity="0.05"/>
-                <rect x="62" y="48" width="56" height="3" rx="1" fill="currentColor" opacity="0.12"/>
-                <rect x="62" y="55" width="40" height="2" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="62" y="61" width="48" height="2" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="62" y="67" width="36" height="2" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="55" y="90" width="70" height="16" rx="3" fill="currentColor" opacity="0.06"/>
-                <rect x="60" y="94" width="60" height="4" rx="1" fill="currentColor" opacity="0.1"/>
-                <rect x="60" y="100" width="40" height="3" rx="1" fill="currentColor" opacity="0.08"/>
-                <circle cx="90" cy="28" r="14" fill="currentColor" opacity="0.07"/>
-                <rect x="76" y="30" width="28" height="8" rx="4" fill="currentColor" opacity="0.09"/>
-                <rect x="82" y="18" width="16" height="10" rx="3" fill="currentColor" opacity="0.07"/>
-              </svg>
-            </div>
+           
             <h3 class="process__title">Track &amp;<br>Receive</h3>
             <p class="process__desc">Monitor progress through your dashboard and receive all certificates and documents delivered digitally.</p>
+            <div class="process__illustration">
+              <img src="{{ asset('Image/service-4.png') }}" alt="Track & Receive">
+            </div>
           </div>
         </div>
       </div>
